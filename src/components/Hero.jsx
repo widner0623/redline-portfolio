@@ -1,87 +1,107 @@
 import { motion } from "framer-motion"
-import { TypeAnimation } from 'react-type-animation'
+import { TypeAnimation } from "react-type-animation"
+import Particles from "react-tsparticles"
+import { loadFull } from "tsparticles"
 
 const bg = "https://images.unsplash.com/photo-1518770660439-4636190af475"
 
 function Hero() {
+
+  const particlesInit = async (main) => {
+    await loadFull(main)
+  }
+
   return (
-    <section id="home" style={{
+    <section style={{
       height: "100vh",
+      position: "relative",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       textAlign: "center",
-      position: "relative",
-      backgroundImage: `url(${bg})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center"
+      overflow: "hidden"
     }}>
 
-      {/* DARK OVERLAY */}
+      {/* 🔥 BACKGROUND IMAGE */}
       <div style={{
         position: "absolute",
         width: "100%",
         height: "100%",
-        background: "linear-gradient(to bottom, rgba(0,0,0,0.7), #000)"
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        zIndex: 0
       }} />
 
-      {/* CONTENT */}
-      <motion.div 
+      {/* 🔥 DARK OVERLAY */}
+      <div style={{
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        background: "rgba(0,0,0,0.7)",
+        zIndex: 1
+      }} />
+
+      {/* 🔥 PARTICLES */}
+      <Particles
+        init={particlesInit}
+        options={{
+          particles: {
+            number: { value: 50 },
+            color: { value: "#ff0000" },
+            links: { enable: true, color: "#ff0000" },
+            move: { enable: true, speed: 1 }
+          }
+        }}
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          zIndex: 2
+        }}
+      />
+
+      {/* 🔥 CONTENT */}
+      <motion.div
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
         style={{
-          position: "relative",
-          zIndex: 2,
+          zIndex: 3,
           display: "flex",
           flexDirection: "column",
           alignItems: "center"
         }}
       >
-        <h1 style={{ fontSize: "3.8rem", fontWeight: "700" }}>
+        <h1 style={{ fontSize: "3.8rem" }}>
           Derrick Widner
         </h1>
 
-        <h2 style={{ color: "red", marginBottom: "10px" }}>
+        <h2 style={{ color: "red" }}>
           Redline Labs
         </h2>
 
-        {/* TYPE ANIMATION */}
         <TypeAnimation
           sequence={[
-            'Full Stack Developer',
-            1500,
-            'Software Engineer',
-            1500,
-            'UI/UX Designer',
-            1500,
-            'Automation Engineer',
-            1500,
-            'Game Developer',
-            1500,
-            'Building at the Redline',
-            2000,
+            "Full Stack Developer",1500,
+            "Software Engineer",1500,
+            "UI/UX Designer",1500,
+            "Automation Engineer",1500,
+            "Game Developer",1500,
+            "Building at the Redline",2000
           ]}
           repeat={Infinity}
           speed={40}
-          style={{
-            color: "#aaa",
-            marginBottom: "30px",
-            display: "block"
-          }}
+          style={{ marginBottom: "30px", color: "#aaa" }}
         />
 
-        {/* BUTTON */}
         <motion.button
           whileHover={{ scale: 1.1, boxShadow: "0 0 20px red" }}
           style={{
             padding: "14px 28px",
             background: "red",
             border: "none",
-            color: "white",
             borderRadius: "8px",
-            cursor: "pointer",
-            marginTop: "10px"
+            color: "white"
           }}
           onClick={() => {
             document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
@@ -89,7 +109,6 @@ function Hero() {
         >
           Explore Work
         </motion.button>
-
       </motion.div>
 
     </section>
