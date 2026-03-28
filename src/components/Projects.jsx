@@ -4,7 +4,7 @@ const projects = [
   {
     title: "Finance Tracking Suite",
     desc: "Advanced analytics & real-time reporting.",
-    img: "/images/finance.jpg",
+    img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
     reviews: [
       "This completely changed how we track our finances.",
       "Super clean interface and powerful insights.",
@@ -14,7 +14,7 @@ const projects = [
   {
     title: "E-Commerce System",
     desc: "Full-stack scalable store platform.",
-    img: "/images/ecommerce.jpg",
+    img: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a",
     reviews: [
       "Our sales doubled after switching to this.",
       "Incredibly fast and easy to manage.",
@@ -24,7 +24,7 @@ const projects = [
   {
     title: "AI Automation Tool",
     desc: "Automated workflows powered by AI.",
-    img: "/images/ai.jpg",
+    img: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
     reviews: [
       "Saved us hours every single day.",
       "Automation is insanely smooth.",
@@ -34,7 +34,7 @@ const projects = [
   {
     title: "Analytics Dashboard",
     desc: "Real-time performance tracking.",
-    img: "/images/analytics.jpg",
+    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
     reviews: [
       "We can finally see everything clearly.",
       "Very intuitive and powerful.",
@@ -44,7 +44,7 @@ const projects = [
   {
     title: "Team Collaboration App",
     desc: "Streamlined communication platform.",
-    img: "/images/team.jpg",
+    img: "https://images.unsplash.com/photo-1551434678-e076c223a692",
     reviews: [
       "Our team is way more organized now.",
       "Communication is seamless.",
@@ -54,7 +54,7 @@ const projects = [
   {
     title: "Marketing Platform",
     desc: "All-in-one campaign manager.",
-    img: "/images/marketing.jpg",
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
     reviews: [
       "Boosted our campaign performance instantly.",
       "Everything in one place is amazing.",
@@ -66,7 +66,6 @@ const projects = [
 export default function Projects() {
   const cardRefs = useRef([])
 
-  /* 📱 MOBILE AUTO FLIP ON SCROLL */
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerWidth > 768) return
@@ -131,14 +130,12 @@ export default function Projects() {
           transition: transform 0.6s ease;
         }
 
-        /* DESKTOP HOVER ONLY */
         @media (min-width: 769px) {
           .card:hover .card-inner {
             transform: rotateY(180deg);
           }
         }
 
-        /* MOBILE FLIP */
         .flip .card-inner {
           transform: rotateY(180deg);
         }
@@ -160,8 +157,10 @@ export default function Projects() {
           object-fit: cover;
         }
 
-        .card-front h3 {
-          margin: 15px 0 5px;
+        .card-front h3,
+        .card-front p {
+          text-align: center;
+          padding: 0 10px;
         }
 
         .card-back {
@@ -177,14 +176,16 @@ export default function Projects() {
           margin-bottom: 10px;
         }
 
-        /* 🔥 FADE EFFECT */
+        /* 🔥 CLEAN FADE (NO DELAY) */
         .review {
           opacity: 0;
-          transition: opacity 0.4s ease;
+          animation: fadeIn 0.3s forwards;
         }
 
-        .card-back.active .review {
-          opacity: 1;
+        @keyframes fadeIn {
+          to {
+            opacity: 1;
+          }
         }
 
         .client {
@@ -196,20 +197,14 @@ export default function Projects() {
   )
 }
 
-/* 🔥 CARD COMPONENT */
+/* 🔥 CARD */
 const Card = ({ data }, ref) => {
   const [review, setReview] = useState("")
-  const [active, setActive] = useState(false)
 
   const getRandomReview = () => {
     const random =
       data.reviews[Math.floor(Math.random() * data.reviews.length)]
-    setActive(false)
-
-    setTimeout(() => {
-      setReview(random)
-      setActive(true)
-    }, 150)
+    setReview(random)
   }
 
   useEffect(() => {
@@ -237,7 +232,7 @@ const Card = ({ data }, ref) => {
           <p>{data.desc}</p>
         </div>
 
-        <div className={`card-back ${active ? "active" : ""}`}>
+        <div className="card-back">
           <div className="stars">⭐⭐⭐⭐⭐</div>
           <p className="review">"{review}"</p>
           <div className="client">- Verified Client</div>
