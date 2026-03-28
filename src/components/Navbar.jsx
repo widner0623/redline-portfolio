@@ -16,7 +16,7 @@ function Navbar() {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  /* 🔥 SCROLL DETECTION */
+  /* 🔥 SCROLL HIGHLIGHT */
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["projects", "contact"]
@@ -40,6 +40,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  /* 🔁 NAVIGATION */
   const goTo = (path, section) => {
     setMenuOpen(false)
 
@@ -68,10 +69,26 @@ function Navbar() {
       {/* DESKTOP NAV */}
       {!isMobile && (
         <div className="nav-links">
-          <NavItem label="Home" active={location.pathname === "/" && !activeSection} onClick={() => goTo("/", null)} />
-          <NavItem label="Projects" active={activeSection === "projects"} onClick={() => goTo(null, "projects")} />
-          <NavItem label="Showcase" active={location.pathname === "/showcase"} onClick={() => goTo("/showcase")} />
-          <NavItem label="Contact" active={activeSection === "contact"} onClick={() => goTo(null, "contact")} />
+          <NavItem
+            label="Home"
+            active={location.pathname === "/" && !activeSection}
+            onClick={() => goTo("/", null)}
+          />
+          <NavItem
+            label="Projects"
+            active={activeSection === "projects"}
+            onClick={() => goTo(null, "projects")}
+          />
+          <NavItem
+            label="Showcase"
+            active={location.pathname === "/showcase"}
+            onClick={() => goTo("/showcase")}
+          />
+          <NavItem
+            label="Contact"
+            active={activeSection === "contact"}
+            onClick={() => goTo(null, "contact")}
+          />
         </div>
       )}
 
@@ -136,8 +153,10 @@ function Navbar() {
           text-shadow: 0 0 12px red;
         }
 
+        /* 🔥 BIGGER HAMBURGER */
         .hamburger {
-          font-size: 26px;
+          font-size: 34px;
+          padding: 8px;
           color: white;
           cursor: pointer;
         }
@@ -146,7 +165,7 @@ function Navbar() {
           position: absolute;
           top: 70px;
           right: 20px;
-          background: rgba(0,0,0,0.9);
+          background: rgba(0,0,0,0.95);
           padding: 20px;
           border-radius: 10px;
           display: flex;
@@ -155,7 +174,7 @@ function Navbar() {
           box-shadow: 0 0 20px rgba(255,0,0,0.4);
         }
 
-        /* 🔴 GLOW LINE */
+        /* 🔴 ANIMATED GLOW LINE */
         .nav::after {
           content: "";
           position: absolute;
@@ -188,6 +207,7 @@ function Navbar() {
   )
 }
 
+/* NAV ITEM */
 function NavItem({ label, onClick, active }) {
   return (
     <div
@@ -199,6 +219,7 @@ function NavItem({ label, onClick, active }) {
   )
 }
 
+/* MOBILE ITEM */
 function MobileItem({ label, onClick }) {
   return (
     <div className="nav-item" onClick={onClick}>

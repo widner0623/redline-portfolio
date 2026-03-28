@@ -1,230 +1,231 @@
-import { useEffect, useRef, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
+import { useState, useEffect } from "react"
 
-function Projects() {
-  const cardsRef = useRef([])
+function Navbar() {
+  const navigate = useNavigate()
+  const location = useLocation()
 
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [activeSection, setActiveSection] = useState("")
+
+  /* 📱 MOBILE DETECTION */
   useEffect(() => {
-    const isMobile = window.innerWidth < 768
-    if (!isMobile) return
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
+  /* 🔥 SCROLL HIGHLIGHT */
+  useEffect(() => {
     const handleScroll = () => {
-      cardsRef.current.forEach((card) => {
-        if (!card) return
+      const sections = ["projects", "contact"]
+      let current = ""
 
-        const rect = card.getBoundingClientRect()
+      sections.forEach((id) => {
+        const el = document.getElementById(id)
+        if (!el) return
 
-        if (rect.top < window.innerHeight * 0.4 && rect.top > 0) {
-          card.classList.add("flip")
-        } else {
-          card.classList.remove("flip")
+        const rect = el.getBoundingClientRect()
+
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          current = id
         }
       })
+
+      setActiveSection(current)
     }
 
     window.addEventListener("scroll", handleScroll)
-    handleScroll()
-
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const projects = [
-    {
-      title: "Finance Tracking Suite",
-      desc: "Advanced analytics & real-time reporting.",
-      img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
-      reviews: [
-        "Completely changed our financial workflow.",
-        "Fast, accurate, and extremely reliable.",
-        "Saved us hours every week."
-      ]
-    },
-    {
-      title: "E-Commerce System",
-      desc: "Full-stack scalable store platform.",
-      img: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a",
-      reviews: [
-        "Our sales increased immediately.",
-        "Checkout is smooth and fast.",
-        "Handles traffic perfectly."
-      ]
-    },
-    {
-      title: "AI Automation Tool",
-      desc: "AI-powered automation workflows.",
-      img: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-      reviews: [
-        "Cut workload in half instantly.",
-        "Smart automation that actually works.",
-        "Huge productivity boost."
-      ]
-    },
-    {
-      title: "Analytics Dashboard",
-      desc: "Real-time data visualization.",
-      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-      reviews: [
-        "Beautiful and powerful charts.",
-        "Great for decision-making.",
-        "Super responsive."
-      ]
-    },
-    {
-      title: "Team Collaboration App",
-      desc: "Messaging + task management system.",
-      img: "https://images.unsplash.com/photo-1551434678-e076c223a692",
-      reviews: [
-        "Team productivity skyrocketed.",
-        "Very clean interface.",
-        "Perfect for collaboration."
-      ]
-    },
-    {
-      title: "Marketing Platform",
-      desc: "High-conversion growth system.",
-      img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-      reviews: [
-        "Massive conversion increase.",
-        "Looks and performs amazing.",
-        "Highly optimized system."
-      ]
+  /* 🔁 NAVIGATION */
+  const goTo = (path, section) => {
+    setMenuOpen(false)
+
+    if (path) {
+      navigate(path)
+      return
     }
-  ]
+
+    navigate("/")
+    setTimeout(() => {
+      const el = document.getElementById(section)
+      if (el) el.scrollIntoView({ behavior: "smooth" })
+    }, 100)
+  }
 
   return (
-    <section id="projects" style={section}>
-      <h2 style={title}>Projects</h2>
+    <nav className="nav">
+      {/* LOGO */}
+      <img
+        src="/logo.png"
+        alt="logo"
+        className="logo"
+        onClick={() => goTo("/", null)}
+      />
 
-      <div style={grid}>
-        {projects.map((p, i) => (
-          <Card
-            key={i}
-            data={p}
-            ref={(el) => (cardsRef.current[i] = el)}
+      {/* DESKTOP NAV */}
+      {!isMobile && (
+        <div className="nav-links">
+          <NavItem
+            label="Home"
+            active={location.pathname === "/" && !activeSection}
+            onClick={() => goTo("/", null)}
           />
-        ))}
-      </div>
+          <NavItem
+            label="Projects"
+            active={activeSection === "projects"}
+            onClick={() => goTo(null, "projects")}
+          />
+          <NavItem
+            label="Showcase"
+            active={location.pathname === "/showcase"}
+            onClick={() => goTo("/showcase")}
+          />
+          <NavItem
+            label="Contact"
+            active={activeSection === "contact"}
+            onClick={() => goTo(null, "contact")}
+          />
+        </div>
+      )}
 
+      {/* HAMBURGER */}
+      {isMobile && (
+        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </div>
+      )}
+
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          <MobileItem label="Home" onClick={() => goTo("/", null)} />
+          <MobileItem label="Projects" onClick={() => goTo(null, "projects")} />
+          <MobileItem label="Showcase" onClick={() => goTo("/showcase")} />
+          <MobileItem label="Contact" onClick={() => goTo(null, "contact")} />
+        </div>
+      )}
+
+      {/* STYLES */}
       <style>{`
-        .card {
-          perspective: 1000px;
-        }
-
-        .card-inner {
-          position: relative;
+        .nav {
+          position: fixed;
+          top: 0;
           width: 100%;
-          height: 320px;
-          transition: transform 0.6s ease;
-          transform-style: preserve-3d;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 40px;
+          background: rgba(0,0,0,0.65);
+          backdrop-filter: blur(14px);
+          z-index: 1000;
         }
 
-        .card-front,
-        .card-back {
+        .logo {
+          width: 60px;
+          transform: scale(1.9);
+          transform-origin: left center;
+          cursor: pointer;
+          animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+          display: flex;
+          gap: 30px;
+        }
+
+        .nav-item {
+          cursor: pointer;
+          color: white;
+          transition: 0.3s;
+        }
+
+        .nav-item:hover {
+          color: red;
+          text-shadow: 0 0 10px red;
+        }
+
+        .active {
+          color: red;
+          text-shadow: 0 0 12px red;
+        }
+
+        /* 🔥 BIGGER HAMBURGER */
+        .hamburger {
+          font-size: 34px;
+          padding: 8px;
+          color: white;
+          cursor: pointer;
+        }
+
+        .mobile-menu {
           position: absolute;
-          width: 100%;
-          height: 100%;
-          backface-visibility: hidden;
-          border-radius: 12px;
-          overflow: hidden;
-        }
-
-        .card-front {
-          background: #111;
-        }
-
-        .card-back {
-          background: #000;
-          transform: rotateY(180deg);
+          top: 70px;
+          right: 20px;
+          background: rgba(0,0,0,0.95);
+          padding: 20px;
+          border-radius: 10px;
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 20px;
-          text-align: center;
-          box-shadow: 0 0 30px rgba(255,0,0,0.4);
+          gap: 15px;
+          box-shadow: 0 0 20px rgba(255,0,0,0.4);
         }
 
-        .stars {
-          color: gold;
-          margin-bottom: 8px;
-          font-size: 18px;
+        /* 🔴 ANIMATED GLOW LINE */
+        .nav::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, red, transparent);
+          animation: glowMove 4s linear infinite;
         }
 
-        .review {
-          margin-top: 5px;
-          line-height: 1.4;
+        @keyframes glowMove {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
         }
 
-        .client {
-          margin-top: 15px;
-          opacity: 0.8;
-          font-size: 14px;
+        @keyframes logoPulse {
+          0% { filter: drop-shadow(0 0 10px rgba(255,0,0,0.6)); }
+          50% { filter: drop-shadow(0 0 25px rgba(255,0,0,1)); }
+          100% { filter: drop-shadow(0 0 10px rgba(255,0,0,0.6)); }
         }
 
-        @media (hover: hover) {
-          .card:hover .card-inner {
-            transform: rotateY(180deg);
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
           }
         }
-
-        .flip .card-inner {
-          transform: rotateY(180deg);
-        }
       `}</style>
-    </section>
+    </nav>
   )
 }
 
-/* CARD COMPONENT */
-const Card = ({ data }, ref) => {
-  const [review, setReview] = useState("")
-
-  useEffect(() => {
-    const random =
-      data.reviews[Math.floor(Math.random() * data.reviews.length)]
-    setReview(random)
-  }, [data])
-
+/* NAV ITEM */
+function NavItem({ label, onClick, active }) {
   return (
-    <div ref={ref} className="card">
-      <div className="card-inner">
-        <div className="card-front">
-          <img src={data.img} style={img} />
-          <h3>{data.title}</h3>
-          <p>{data.desc}</p>
-        </div>
-
-        <div className="card-back">
-          <div className="stars">⭐⭐⭐⭐⭐</div>
-          <p className="review">"{review}"</p>
-          <div className="client">- Verified Client</div>
-        </div>
-      </div>
+    <div
+      onClick={onClick}
+      className={`nav-item ${active ? "active" : ""}`}
+    >
+      {label}
     </div>
   )
 }
 
-/* STYLES */
-const section = {
-  padding: "100px 40px",
-  background: "black",
-  color: "white"
+/* MOBILE ITEM */
+function MobileItem({ label, onClick }) {
+  return (
+    <div className="nav-item" onClick={onClick}>
+      {label}
+    </div>
+  )
 }
 
-const title = {
-  textAlign: "center",
-  marginBottom: "40px"
-}
-
-const grid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))",
-  gap: "30px"
-}
-
-const img = {
-  width: "100%",
-  height: "180px",
-  objectFit: "cover"
-}
-
-export default Projects
+export default Navbar
