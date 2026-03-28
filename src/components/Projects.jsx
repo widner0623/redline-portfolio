@@ -1,231 +1,248 @@
-import { useNavigate, useLocation } from "react-router-dom"
-import { useState, useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 
-function Navbar() {
-  const navigate = useNavigate()
-  const location = useLocation()
+const projects = [
+  {
+    title: "Finance Tracking Suite",
+    desc: "Advanced analytics & real-time reporting.",
+    img: "/images/finance.jpg",
+    reviews: [
+      "This completely changed how we track our finances.",
+      "Super clean interface and powerful insights.",
+      "Best financial tool we’ve used so far."
+    ]
+  },
+  {
+    title: "E-Commerce System",
+    desc: "Full-stack scalable store platform.",
+    img: "/images/ecommerce.jpg",
+    reviews: [
+      "Our sales doubled after switching to this.",
+      "Incredibly fast and easy to manage.",
+      "Exactly what our business needed."
+    ]
+  },
+  {
+    title: "AI Automation Tool",
+    desc: "Automated workflows powered by AI.",
+    img: "/images/ai.jpg",
+    reviews: [
+      "Saved us hours every single day.",
+      "Automation is insanely smooth.",
+      "Game changer for productivity."
+    ]
+  },
+  {
+    title: "Analytics Dashboard",
+    desc: "Real-time performance tracking.",
+    img: "/images/analytics.jpg",
+    reviews: [
+      "We can finally see everything clearly.",
+      "Very intuitive and powerful.",
+      "Perfect for decision making."
+    ]
+  },
+  {
+    title: "Team Collaboration App",
+    desc: "Streamlined communication platform.",
+    img: "/images/team.jpg",
+    reviews: [
+      "Our team is way more organized now.",
+      "Communication is seamless.",
+      "Love how simple it is."
+    ]
+  },
+  {
+    title: "Marketing Platform",
+    desc: "All-in-one campaign manager.",
+    img: "/images/marketing.jpg",
+    reviews: [
+      "Boosted our campaign performance instantly.",
+      "Everything in one place is amazing.",
+      "Highly recommend for marketers."
+    ]
+  }
+]
 
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-  const [activeSection, setActiveSection] = useState("")
+export default function Projects() {
+  const cardRefs = useRef([])
 
-  /* 📱 MOBILE DETECTION */
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  /* 🔥 SCROLL HIGHLIGHT */
+  /* 📱 MOBILE AUTO FLIP ON SCROLL */
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["projects", "contact"]
-      let current = ""
+      if (window.innerWidth > 768) return
 
-      sections.forEach((id) => {
-        const el = document.getElementById(id)
-        if (!el) return
+      cardRefs.current.forEach((card) => {
+        if (!card) return
 
-        const rect = el.getBoundingClientRect()
+        const rect = card.getBoundingClientRect()
+        const middle = window.innerHeight * 0.6
 
-        if (rect.top <= 150 && rect.bottom >= 150) {
-          current = id
+        if (rect.top < middle && rect.bottom > middle) {
+          card.classList.add("flip")
+        } else {
+          card.classList.remove("flip")
         }
       })
-
-      setActiveSection(current)
     }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  /* 🔁 NAVIGATION */
-  const goTo = (path, section) => {
-    setMenuOpen(false)
-
-    if (path) {
-      navigate(path)
-      return
-    }
-
-    navigate("/")
-    setTimeout(() => {
-      const el = document.getElementById(section)
-      if (el) el.scrollIntoView({ behavior: "smooth" })
-    }, 100)
-  }
-
   return (
-    <nav className="nav">
-      {/* LOGO */}
-      <img
-        src="/logo.png"
-        alt="logo"
-        className="logo"
-        onClick={() => goTo("/", null)}
-      />
+    <section id="projects" className="projects">
+      <h2>Projects</h2>
 
-      {/* DESKTOP NAV */}
-      {!isMobile && (
-        <div className="nav-links">
-          <NavItem
-            label="Home"
-            active={location.pathname === "/" && !activeSection}
-            onClick={() => goTo("/", null)}
+      <div className="grid">
+        {projects.map((proj, i) => (
+          <Card
+            key={i}
+            data={proj}
+            ref={(el) => (cardRefs.current[i] = el)}
           />
-          <NavItem
-            label="Projects"
-            active={activeSection === "projects"}
-            onClick={() => goTo(null, "projects")}
-          />
-          <NavItem
-            label="Showcase"
-            active={location.pathname === "/showcase"}
-            onClick={() => goTo("/showcase")}
-          />
-          <NavItem
-            label="Contact"
-            active={activeSection === "contact"}
-            onClick={() => goTo(null, "contact")}
-          />
-        </div>
-      )}
+        ))}
+      </div>
 
-      {/* HAMBURGER */}
-      {isMobile && (
-        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-          ☰
-        </div>
-      )}
-
-      {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="mobile-menu">
-          <MobileItem label="Home" onClick={() => goTo("/", null)} />
-          <MobileItem label="Projects" onClick={() => goTo(null, "projects")} />
-          <MobileItem label="Showcase" onClick={() => goTo("/showcase")} />
-          <MobileItem label="Contact" onClick={() => goTo(null, "contact")} />
-        </div>
-      )}
-
-      {/* STYLES */}
       <style>{`
-        .nav {
-          position: fixed;
-          top: 0;
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 16px 40px;
-          background: rgba(0,0,0,0.65);
-          backdrop-filter: blur(14px);
-          z-index: 1000;
+        .projects {
+          padding: 120px 20px;
+          background: black;
+          color: white;
+          text-align: center;
         }
 
-        .logo {
-          width: 60px;
-          transform: scale(1.9);
-          transform-origin: left center;
-          cursor: pointer;
-          animation: logoPulse 3s ease-in-out infinite;
-        }
-
-        .nav-links {
-          display: flex;
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
           gap: 30px;
+          max-width: 1100px;
+          margin: auto;
         }
 
-        .nav-item {
-          cursor: pointer;
-          color: white;
-          transition: 0.3s;
+        .card {
+          perspective: 1000px;
         }
 
-        .nav-item:hover {
-          color: red;
-          text-shadow: 0 0 10px red;
-        }
-
-        .active {
-          color: red;
-          text-shadow: 0 0 12px red;
-        }
-
-        /* 🔥 BIGGER HAMBURGER */
-        .hamburger {
-          font-size: 34px;
-          padding: 8px;
-          color: white;
-          cursor: pointer;
-        }
-
-        .mobile-menu {
-          position: absolute;
-          top: 70px;
-          right: 20px;
-          background: rgba(0,0,0,0.95);
-          padding: 20px;
-          border-radius: 10px;
-          display: flex;
-          flex-direction: column;
-          gap: 15px;
-          box-shadow: 0 0 20px rgba(255,0,0,0.4);
-        }
-
-        /* 🔴 ANIMATED GLOW LINE */
-        .nav::after {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 0;
+        .card-inner {
+          position: relative;
           width: 100%;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, red, transparent);
-          animation: glowMove 4s linear infinite;
+          height: 320px;
+          transform-style: preserve-3d;
+          transition: transform 0.6s ease;
         }
 
-        @keyframes glowMove {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-
-        @keyframes logoPulse {
-          0% { filter: drop-shadow(0 0 10px rgba(255,0,0,0.6)); }
-          50% { filter: drop-shadow(0 0 25px rgba(255,0,0,1)); }
-          100% { filter: drop-shadow(0 0 10px rgba(255,0,0,0.6)); }
-        }
-
-        @media (max-width: 768px) {
-          .nav-links {
-            display: none;
+        /* DESKTOP HOVER ONLY */
+        @media (min-width: 769px) {
+          .card:hover .card-inner {
+            transform: rotateY(180deg);
           }
         }
+
+        /* MOBILE FLIP */
+        .flip .card-inner {
+          transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
+          border-radius: 12px;
+          overflow: hidden;
+          background: #111;
+        }
+
+        .card-front img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+        }
+
+        .card-front h3 {
+          margin: 15px 0 5px;
+        }
+
+        .card-back {
+          transform: rotateY(180deg);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+        }
+
+        .stars {
+          margin-bottom: 10px;
+        }
+
+        /* 🔥 FADE EFFECT */
+        .review {
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .card-back.active .review {
+          opacity: 1;
+        }
+
+        .client {
+          margin-top: 15px;
+          color: #aaa;
+        }
       `}</style>
-    </nav>
+    </section>
   )
 }
 
-/* NAV ITEM */
-function NavItem({ label, onClick, active }) {
+/* 🔥 CARD COMPONENT */
+const Card = ({ data }, ref) => {
+  const [review, setReview] = useState("")
+  const [active, setActive] = useState(false)
+
+  const getRandomReview = () => {
+    const random =
+      data.reviews[Math.floor(Math.random() * data.reviews.length)]
+    setActive(false)
+
+    setTimeout(() => {
+      setReview(random)
+      setActive(true)
+    }, 150)
+  }
+
+  useEffect(() => {
+    getRandomReview()
+  }, [data])
+
   return (
     <div
-      onClick={onClick}
-      className={`nav-item ${active ? "active" : ""}`}
+      ref={ref}
+      className="card"
+      onMouseEnter={getRandomReview}
+      onTouchStart={getRandomReview}
     >
-      {label}
+      <div
+        className="card-inner"
+        onTransitionEnd={(e) => {
+          if (e.propertyName === "transform") {
+            getRandomReview()
+          }
+        }}
+      >
+        <div className="card-front">
+          <img src={data.img} />
+          <h3>{data.title}</h3>
+          <p>{data.desc}</p>
+        </div>
+
+        <div className={`card-back ${active ? "active" : ""}`}>
+          <div className="stars">⭐⭐⭐⭐⭐</div>
+          <p className="review">"{review}"</p>
+          <div className="client">- Verified Client</div>
+        </div>
+      </div>
     </div>
   )
 }
-
-/* MOBILE ITEM */
-function MobileItem({ label, onClick }) {
-  return (
-    <div className="nav-item" onClick={onClick}>
-      {label}
-    </div>
-  )
-}
-
-export default Navbar
