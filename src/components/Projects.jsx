@@ -4,13 +4,16 @@ function Projects() {
   const cardsRef = useRef([])
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768
+    if (!isMobile) return
+
     const handleScroll = () => {
       cardsRef.current.forEach((card) => {
         if (!card) return
 
         const rect = card.getBoundingClientRect()
 
-        if (rect.top < window.innerHeight - 100) {
+        if (rect.top < window.innerHeight * 0.4 && rect.top > 0) {
           card.classList.add("flip")
         } else {
           card.classList.remove("flip")
@@ -27,32 +30,32 @@ function Projects() {
   const projects = [
     {
       title: "Finance Tracking Suite",
-      desc: "Secure financial tracking system with advanced analytics and real-time reporting.",
+      desc: "Secure financial tracking system with advanced analytics.",
       img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d"
     },
     {
       title: "E-Commerce System",
-      desc: "Scalable full-stack eCommerce platform with payment integration and dashboards.",
+      desc: "Scalable online store platform with full backend support.",
       img: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a"
     },
     {
       title: "AI Automation Tool",
-      desc: "AI-powered automation platform improving workflows and business efficiency.",
+      desc: "Automated workflows powered by advanced AI systems.",
       img: "https://images.unsplash.com/photo-1677442136019-21780ecad995"
     },
     {
       title: "Analytics Dashboard",
-      desc: "Modern data visualization dashboard with interactive charts and insights.",
+      desc: "Modern dashboard with real-time data visualization.",
       img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71"
     },
     {
       title: "Team Collaboration App",
-      desc: "Real-time collaboration platform with messaging and task management.",
+      desc: "Real-time messaging and task management system.",
       img: "https://images.unsplash.com/photo-1551434678-e076c223a692"
     },
     {
-      title: "Marketing Landing System",
-      desc: "High-converting landing page system optimized for engagement and growth.",
+      title: "Marketing Platform",
+      desc: "High-conversion landing system built for growth.",
       img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
     }
   ]
@@ -78,8 +81,8 @@ function Projects() {
 
               <div className="card-back">
                 <p>
-                  “This solution completely transformed our workflow. The performance
-                  improvements and reliability are unmatched in our experience.”
+                  “This solution dramatically improved our performance and efficiency.
+                  Clean, fast, and extremely reliable.”
                 </p>
                 <div>⭐⭐⭐⭐⭐ Verified Client</div>
               </div>
@@ -101,10 +104,6 @@ function Projects() {
           transform-style: preserve-3d;
         }
 
-        .card.flip .card-inner {
-          transform: rotateY(180deg);
-        }
-
         .card-front,
         .card-back {
           position: absolute;
@@ -121,7 +120,6 @@ function Projects() {
 
         .card-back {
           background: #000;
-          color: white;
           transform: rotateY(180deg);
           display: flex;
           flex-direction: column;
@@ -137,6 +135,10 @@ function Projects() {
             transform: rotateY(180deg);
           }
         }
+
+        .flip .card-inner {
+          transform: rotateY(180deg);
+        }
       `}</style>
     </section>
   )
@@ -150,8 +152,7 @@ const section = {
 
 const title = {
   textAlign: "center",
-  marginBottom: "40px",
-  fontSize: "2rem"
+  marginBottom: "40px"
 }
 
 const grid = {
