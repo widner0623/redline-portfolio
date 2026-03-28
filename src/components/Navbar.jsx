@@ -15,11 +15,12 @@ function Navbar() {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
     }
+
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  /* 🔥 SCROLL DETECTION */
+  /* 🔥 AUTO HIGHLIGHT ON SCROLL */
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["projects", "contact"]
@@ -30,6 +31,7 @@ function Navbar() {
         if (!el) return
 
         const rect = el.getBoundingClientRect()
+
         if (rect.top <= 150 && rect.bottom >= 150) {
           found = id
         }
@@ -42,6 +44,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  /* 🔥 SCROLL TO SECTION */
   const goToSection = (id) => {
     navigate("/")
     setMenuOpen(false)
@@ -55,29 +58,62 @@ function Navbar() {
     }, 100)
   }
 
+  /* 🔥 GO HOME (FIXED) */
+  const goHome = () => {
+    navigate("/")
+    setMenuOpen(false)
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      setActiveSection("")
+    }, 100)
+  }
+
   return (
-    <motion.nav style={navStyle}>
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      style={navStyle}
+    >
       {/* 🔴 LOGO */}
       <motion.img
         src="/logo.png"
         style={logoStyle}
-        onClick={() => {
-          navigate("/")
-          setMenuOpen(false)
-        }}
+        onClick={goHome}
+        whileHover={{ scale: 2.1 }}
       />
 
-      {/* 🔥 DESKTOP NAV */}
+      {/* DESKTOP NAV */}
       {!isMobile && (
         <div style={linksContainer}>
-          <NavItem label="Home" active={location.pathname === "/" && activeSection === ""} onClick={() => navigate("/")} />
-          <NavItem label="Projects" active={activeSection === "projects"} onClick={() => goToSection("projects")} />
-          <NavItem label="Showcase" active={location.pathname === "/showcase"} onClick={() => navigate("/showcase")} />
-          <NavItem label="Contact" active={activeSection === "contact"} onClick={() => goToSection("contact")} />
+          <NavItem
+            label="Home"
+            active={location.pathname === "/" && activeSection === ""}
+            onClick={goHome}
+          />
+
+          <NavItem
+            label="Projects"
+            active={activeSection === "projects"}
+            onClick={() => goToSection("projects")}
+          />
+
+          <NavItem
+            label="Showcase"
+            active={location.pathname === "/showcase"}
+            onClick={() => navigate("/showcase")}
+          />
+
+          <NavItem
+            label="Contact"
+            active={activeSection === "contact"}
+            onClick={() => goToSection("contact")}
+          />
         </div>
       )}
 
-      {/* 🍔 HAMBURGER */}
+      {/* 🍔 MOBILE BUTTON */}
       {isMobile && (
         <div onClick={() => setMenuOpen(!menuOpen)} style={hamburger}>
           <span style={bar}></span>
@@ -90,14 +126,21 @@ function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3 }}
             style={mobileMenu}
           >
-            <NavItem label="Home" onClick={() => navigate("/")} />
+            <NavItem label="Home" onClick={goHome} />
             <NavItem label="Projects" onClick={() => goToSection("projects")} />
-            <NavItem label="Showcase" onClick={() => navigate("/showcase")} />
+            <NavItem
+              label="Showcase"
+              onClick={() => {
+                navigate("/showcase")
+                setMenuOpen(false)
+              }}
+            />
             <NavItem label="Contact" onClick={() => goToSection("contact")} />
           </motion.div>
         )}
@@ -109,16 +152,39 @@ function Navbar() {
 /* 🔗 NAV ITEM */
 function NavItem({ label, active, onClick }) {
   return (
-    <div onClick={onClick} style={{ cursor: "pointer", margin: "10px 0" }}>
+    <div
+      onClick={onClick}
+      style={{
+        cursor: "pointer",
+        margin: "10px",
+        textAlign: "center"
+      }}
+    >
       <motion.span
-        whileHover={{ color: "red" }}
+        whileHover={{
+          color: "red",
+          textShadow: "0 0 8px red"
+        }}
         style={{
           color: active ? "red" : "white",
-          fontSize: "1rem"
+          fontSize: "1rem",
+          fontWeight: "500"
         }}
       >
         {label}
       </motion.span>
+
+      {/* 🔥 UNDERLINE */}
+      {active && (
+        <div
+          style={{
+            height: "2px",
+            background: "red",
+            marginTop: "4px",
+            borderRadius: "2px"
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -130,28 +196,29 @@ const navStyle = {
   justifyContent: "space-between",
   alignItems: "center",
   padding: "15px 20px",
-  background: "black",
+  background: "rgba(0,0,0,0.9)",
   position: "sticky",
   top: 0,
-  zIndex: 1000
+  zIndex: 1000,
+  backdropFilter: "blur(10px)"
 }
 
 const logoStyle = {
-  width: "45px",
-  transform: "scale(1.3)",
+  width: "50px",
+  transform: "scale(2.4)",
   cursor: "pointer"
 }
 
 const linksContainer = {
   display: "flex",
-  gap: "30px"
+  gap: "25px"
 }
 
 const hamburger = {
   display: "flex",
   flexDirection: "column",
-  cursor: "pointer",
-  gap: "5px"
+  gap: "5px",
+  cursor: "pointer"
 }
 
 const bar = {
