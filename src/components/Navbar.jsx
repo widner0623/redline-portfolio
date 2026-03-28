@@ -1,75 +1,141 @@
 import { motion } from "framer-motion"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
+import { useState, useEffect } from "react"
 
 function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [activeSection, setActiveSection] = useState("")
+
+  /* 🔥 SCROLL DETECTION */
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["projects", "contact"]
+
+      let found = ""
+
+      sections.forEach((id) => {
+        const el = document.getElementById(id)
+        if (!el) return
+
+        const rect = el.getBoundingClientRect()
+
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          found = id
+        }
+      })
+
+      setActiveSection(found)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const goToSection = (id) => {
     navigate("/")
     setTimeout(() => {
       const el = document.getElementById(id)
-      if (el) el.scrollIntoView({ behavior: "smooth" })
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" })
+        setActiveSection(id)
+      }
     }, 100)
   }
 
   return (
     <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
       style={navStyle}
     >
       {/* 🔴 LOGO */}
-      <div style={logoContainer}>
-        <img
-          src="/logo.png"
-          alt="Redline Labs Logo"
-          style={logoStyle}
-          background="none"
-        />
-        <h2 style={logoText}>Redline Labs</h2>
-      </div>
+      <motion.img
+        src="/logo.png"
+        alt="Logo"
+        style={logoStyle}
+        onClick={() => {
+          navigate("/")
+          setActiveSection("")
+        }}
+        whileHover={{ scale: 1.15 }}
+        animate={{
+          filter: [
+            "drop-shadow(0 0 6px rgba(255,0,0,0.6))",
+            "drop-shadow(0 0 16px rgba(255,0,0,1))",
+            "drop-shadow(0 0 6px rgba(255,0,0,0.6))"
+          ]
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity
+        }}
+      />
 
-      {/* 🔗 NAV LINKS */}
+      {/* 🔗 NAV ITEMS */}
       <div style={linksContainer}>
-        <NavItem to="/" label="Home" active={location.pathname === "/"} />
+        <NavItem
+          label="Home"
+          active={location.pathname === "/" && activeSection === ""}
+          onClick={() => {
+            navigate("/")
+            setActiveSection("")
+          }}
+        />
 
-        <span style={linkStyle} onClick={() => goToSection("projects")}>
-          Projects
-        </span>
+        <NavItem
+          label="Projects"
+          active={activeSection === "projects"}
+          onClick={() => goToSection("projects")}
+        />
 
-        <NavItem to="/showcase" label="Showcase" active={location.pathname === "/showcase"} />
+        <NavItem
+          label="Showcase"
+          active={location.pathname === "/showcase"}
+          onClick={() => navigate("/showcase")}
+        />
 
-        <span style={linkStyle} onClick={() => goToSection("contact")}>
-          Contact
-        </span>
+        <NavItem
+          label="Contact"
+          active={activeSection === "contact"}
+          onClick={() => goToSection("contact")}
+        />
       </div>
     </motion.nav>
   )
 }
 
-/* 🔗 NAV ITEM COMPONENT */
-function NavItem({ to, label, active }) {
+/* 🔗 NAV ITEM */
+function NavItem({ label, active, onClick }) {
   return (
-    <Link to={to} style={{ position: "relative", marginRight: "20px" }}>
-      <span style={{
-        color: active ? "red" : "white",
-        transition: "0.3s"
-      }}>
+    <div onClick={onClick} style={navItemWrapper}>
+      <motion.span
+        whileHover={{
+          color: "red",
+          textShadow: "0 0 10px rgba(255,0,0,0.9)"
+        }}
+        style={{
+          fontSize: "1.1rem",
+          fontWeight: "500",
+          color: active ? "red" : "white"
+        }}
+      >
         {label}
-      </span>
+      </motion.span>
 
-      {/* 🔥 UNDERLINE EFFECT */}
-      <span style={{
-        position: "absolute",
-        bottom: "-5px",
-        left: 0,
-        width: active ? "100%" : "0%",
-        height: "2px",
-        background: "red",
-        transition: "0.3s"
-      }} />
-    </Link>
+      <motion.div
+        style={{
+          height: "2px",
+          background: "red",
+          borderRadius: "2px",
+          marginTop: "5px"
+        }}
+        initial={{ width: 0 }}
+        animate={{ width: active ? "100%" : "0%" }}
+        transition={{ duration: 0.3 }}
+      />
+    </div>
   )
 }
 
@@ -79,42 +145,37 @@ const navStyle = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "20px 40px",
-  background: "rgba(0,0,0,0.85)",
-  backdropFilter: "blur(12px)",
+  padding: "18px 40px",
   position: "sticky",
   top: 0,
   zIndex: 1000,
-  borderBottom: "1px solid #222"
-}
-
-const logoContainer = {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px"
+  background: "rgba(0,0,0,0.7)",
+  backdropFilter: "blur(14px)",
+  borderBottom: "1px solid rgba(255,0,0,0.25)",
+  boxShadow: "0 5px 30px rgba(255,0,0,0.2)"
 }
 
 const logoStyle = {
-  width: "38px",
-  height: "38px",
+  width: "55px",
+  height: "55px",
   objectFit: "contain",
-  filter: "drop-shadow(0 0 6px rgba(255,0,0,0.6))"
-}
-
-const logoText = {
-  fontWeight: "700",
-  letterSpacing: "0.5px"
+  cursor: "pointer",
+  transform: "scale(2.25)",
+  transformOrigin: "left center",
+  filter: "drop-shadow(0 0 8px rgba(255,0,0,0.7))"
 }
 
 const linksContainer = {
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
+  gap: "35px"
 }
 
-const linkStyle = {
-  marginRight: "20px",
-  cursor: "pointer",
-  transition: "0.3s"
+const navItemWrapper = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  cursor: "pointer"
 }
 
 export default Navbar
