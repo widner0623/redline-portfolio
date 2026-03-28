@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 function Projects() {
   const cardsRef = useRef([])
@@ -30,33 +30,63 @@ function Projects() {
   const projects = [
     {
       title: "Finance Tracking Suite",
-      desc: "Secure financial tracking system with advanced analytics.",
-      img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d"
+      desc: "Advanced analytics & real-time reporting.",
+      img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
+      reviews: [
+        "Completely changed our financial workflow.",
+        "Fast, accurate, and extremely reliable.",
+        "Saved us hours every week."
+      ]
     },
     {
       title: "E-Commerce System",
-      desc: "Scalable online store platform with full backend support.",
-      img: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a"
+      desc: "Full-stack scalable store platform.",
+      img: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a",
+      reviews: [
+        "Our sales increased immediately.",
+        "Checkout is smooth and fast.",
+        "Handles traffic perfectly."
+      ]
     },
     {
       title: "AI Automation Tool",
-      desc: "Automated workflows powered by advanced AI systems.",
-      img: "https://images.unsplash.com/photo-1677442136019-21780ecad995"
+      desc: "AI-powered automation workflows.",
+      img: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+      reviews: [
+        "Cut workload in half instantly.",
+        "Smart automation that actually works.",
+        "Huge productivity boost."
+      ]
     },
     {
       title: "Analytics Dashboard",
-      desc: "Modern dashboard with real-time data visualization.",
-      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71"
+      desc: "Real-time data visualization.",
+      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+      reviews: [
+        "Beautiful and powerful charts.",
+        "Great for decision-making.",
+        "Super responsive."
+      ]
     },
     {
       title: "Team Collaboration App",
-      desc: "Real-time messaging and task management system.",
-      img: "https://images.unsplash.com/photo-1551434678-e076c223a692"
+      desc: "Messaging + task management system.",
+      img: "https://images.unsplash.com/photo-1551434678-e076c223a692",
+      reviews: [
+        "Team productivity skyrocketed.",
+        "Very clean interface.",
+        "Perfect for collaboration."
+      ]
     },
     {
       title: "Marketing Platform",
-      desc: "High-conversion landing system built for growth.",
-      img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+      desc: "High-conversion growth system.",
+      img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
+      reviews: [
+        "Massive conversion increase.",
+        "Looks and performs amazing.",
+        "Highly optimized system."
+      ]
     }
   ]
 
@@ -66,28 +96,11 @@ function Projects() {
 
       <div style={grid}>
         {projects.map((p, i) => (
-          <div
+          <Card
             key={i}
+            data={p}
             ref={(el) => (cardsRef.current[i] = el)}
-            className="card"
-            style={cardWrapper}
-          >
-            <div className="card-inner">
-              <div className="card-front">
-                <img src={p.img} style={img} />
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-              </div>
-
-              <div className="card-back">
-                <p>
-                  “This solution dramatically improved our performance and efficiency.
-                  Clean, fast, and extremely reliable.”
-                </p>
-                <div>⭐⭐⭐⭐⭐ Verified Client</div>
-              </div>
-            </div>
-          </div>
+          />
         ))}
       </div>
 
@@ -130,6 +143,23 @@ function Projects() {
           box-shadow: 0 0 30px rgba(255,0,0,0.4);
         }
 
+        .stars {
+          color: gold;
+          margin-bottom: 8px;
+          font-size: 18px;
+        }
+
+        .review {
+          margin-top: 5px;
+          line-height: 1.4;
+        }
+
+        .client {
+          margin-top: 15px;
+          opacity: 0.8;
+          font-size: 14px;
+        }
+
         @media (hover: hover) {
           .card:hover .card-inner {
             transform: rotateY(180deg);
@@ -144,6 +174,36 @@ function Projects() {
   )
 }
 
+/* CARD COMPONENT */
+const Card = ({ data }, ref) => {
+  const [review, setReview] = useState("")
+
+  useEffect(() => {
+    const random =
+      data.reviews[Math.floor(Math.random() * data.reviews.length)]
+    setReview(random)
+  }, [data])
+
+  return (
+    <div ref={ref} className="card">
+      <div className="card-inner">
+        <div className="card-front">
+          <img src={data.img} style={img} />
+          <h3>{data.title}</h3>
+          <p>{data.desc}</p>
+        </div>
+
+        <div className="card-back">
+          <div className="stars">⭐⭐⭐⭐⭐</div>
+          <p className="review">"{review}"</p>
+          <div className="client">- Verified Client</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* STYLES */
 const section = {
   padding: "100px 40px",
   background: "black",
@@ -159,10 +219,6 @@ const grid = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))",
   gap: "30px"
-}
-
-const cardWrapper = {
-  cursor: "pointer"
 }
 
 const img = {
