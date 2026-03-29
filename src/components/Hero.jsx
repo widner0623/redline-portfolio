@@ -4,7 +4,8 @@ const roles = [
   "Software Engineer",
   "Web Developer",
   "UI/UX Designer",
-  "Automation Specialist"
+  "Automation Specialist",
+  "Front-End Developer"
 ]
 
 function Hero() {
