@@ -49,9 +49,6 @@ export default function Projects() {
 
           if (entry.isIntersecting) {
             card.classList.add("flip")
-
-            // 🔥 trigger review update BEFORE flip
-            card.dispatchEvent(new Event("flipStart"))
           } else {
             card.classList.remove("flip")
           }
@@ -188,13 +185,8 @@ export default function Projects() {
           position: relative;
         }
 
-        .star.full {
-          color: #ff2a2a;
-        }
-
-        .star.empty {
-          color: #333;
-        }
+        .star.full { color: #ff2a2a; }
+        .star.empty { color: #333; }
 
         .star.half {
           color: #333;
@@ -213,7 +205,6 @@ export default function Projects() {
         .back p {
           margin-top: 10px;
           text-align: center;
-          line-height: 1.4;
         }
 
         .back span {
@@ -233,31 +224,26 @@ const Card = forwardRef(({ data }, ref) => {
   const getRandomReview = () =>
     data.reviews[Math.floor(Math.random() * data.reviews.length)]
 
-  // initial setup
   useEffect(() => {
     const first = getRandomReview()
     setReview(first)
     nextReviewRef.current = getRandomReview()
   }, [])
 
-  // 🔥 swap BEFORE flip is visible
-  const swapReview = () => {
-    setReview(nextReviewRef.current)
-    nextReviewRef.current = getRandomReview()
-  }
-
-  // 🔥 MOBILE: detect class change (flip added)
+  // 🔥 detect flip via class change (reliable mobile fix)
   useEffect(() => {
     const node = ref?.current
     if (!node) return
 
-    const observer = new MutationObserver(() => {
+    const checkFlip = () => {
       if (node.classList.contains("flip")) {
-        swapReview()
+        setReview(nextReviewRef.current)
+        nextReviewRef.current = getRandomReview()
       }
-    })
+    }
 
-    observer.observe(node, { attributes: true, attributeFilter: ["class"] })
+    const observer = new MutationObserver(checkFlip)
+    observer.observe(node, { attributes: true })
 
     return () => observer.disconnect()
   }, [ref])
@@ -278,11 +264,7 @@ const Card = forwardRef(({ data }, ref) => {
   }
 
   return (
-    <div
-      ref={ref}
-      className="card"
-      onMouseEnter={swapReview} // desktop trigger
-    >
+    <div ref={ref} className="card">
       <div className="inner">
         <div className="front">
           <img src={data.img} />
