@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, forwardRef } from "react"
 
 const projects = [
   {
@@ -37,46 +37,47 @@ export default function Projects() {
   const refs = useRef([])
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerWidth > 768) return
+    if (window.innerWidth > 768) return
 
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const card = entry.target
+
+          if (entry.isIntersecting) {
+            card.classList.add("flip")
+          } else {
+            card.classList.remove("flip")
+          }
+        })
+      },
+      {
+        threshold: 0.6
+      }
+    )
+
+    refs.current.forEach((card) => {
+      if (card) observer.observe(card)
+    })
+
+    return () => {
       refs.current.forEach((card) => {
-        if (!card) return
-
-        const rect = card.getBoundingClientRect()
-        const center = window.innerHeight / 2
-
-        const inView =
-          rect.top <= center && rect.bottom >= center
-
-        if (inView) {
-          card.classList.add("flip")
-        } else {
-          card.classList.remove("flip")
-        }
+        if (card) observer.unobserve(card)
       })
     }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
-
-    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
     <section id="projects" className="projects">
-      <h2 className="project-text">Projects
-        <style>{`
-          .project-text{
-          // font-size: ;
-          margin: 0 0 50px 0;
-        }
-        `}</style>
-      </h2>
+      <h2>Projects</h2>
 
       <div className="grid">
         {projects.map((p, i) => (
-          <Card key={i} data={p} ref={(el) => (refs.current[i] = el)} />
+          <Card
+            key={i}
+            data={p}
+            ref={(el) => (refs.current[i] = el)}
+          />
         ))}
       </div>
 
@@ -105,14 +106,14 @@ export default function Projects() {
           transition: transform 0.5s ease;
         }
 
-        /* 🔴 DESKTOP ONLY HOVER */
+        /* DESKTOP ONLY */
         @media (min-width: 769px) {
           .card:hover .inner {
             transform: rotateY(180deg);
           }
         }
 
-        /* 🔴 MOBILE FLIP */
+        /* MOBILE */
         .flip .inner {
           transform: rotateY(180deg);
         }
@@ -160,8 +161,8 @@ export default function Projects() {
   )
 }
 
-/* 🔥 CARD */
-const Card = ({ data }, ref) => {
+/* 🔴 FIXED CARD WITH forwardRef */
+const Card = forwardRef(({ data }, ref) => {
   const [review, setReview] = useState("")
 
   const randomReview = () => {
@@ -202,4 +203,4 @@ const Card = ({ data }, ref) => {
       </div>
     </div>
   )
-}
+})
