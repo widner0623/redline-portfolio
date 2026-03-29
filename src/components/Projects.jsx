@@ -73,15 +73,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects">
-      <h2 className="projectText">Projects
-        <style>
-          .projectText {`
-            margin-bottom: 35px;
-            font-size: 32px;
-            font-weight: 600;
-          `}
-        </style>
-      </h2>
+      <h2 className="projectText">Projects</h2>
 
       <div className="grid">
         {projects.map((p, i) => (
@@ -97,6 +89,11 @@ export default function Projects() {
         .projects {
           padding: 100px 20px;
           text-align: center;
+        }
+        .projectText {
+          margin-bottom: 35px;
+          font-size: 32px;
+          font-weight: 600;
         }
 
         .grid {
