@@ -46,28 +46,28 @@ export default function Projects() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const wrapper = entry.target
+          const card = entry.target
 
           if (entry.isIntersecting) {
-            wrapper.classList.add("flip")
+            card.classList.add("flip")
           } else {
-            wrapper.classList.remove("flip")
+            card.classList.remove("flip")
           }
         })
       },
       {
-        rootMargin: "0px 0px -40% 0px",
-        threshold: 0.2
+        rootMargin: "-50% 0px -50% 0px",
+        threshold: 0.5
       }
     )
 
-    refs.current.forEach((el) => {
-      if (el) observer.observe(el)
+    refs.current.forEach((card) => {
+      if (card) observer.observe(card)
     })
 
     return () => {
-      refs.current.forEach((el) => {
-        if (el) observer.unobserve(el)
+      refs.current.forEach((card) => {
+        if (card) observer.unobserve(card)
       })
     }
   }, [])
@@ -78,13 +78,11 @@ export default function Projects() {
 
       <div className="grid">
         {projects.map((p, i) => (
-          <div
+          <Card
             key={i}
+            data={p}
             ref={(el) => (refs.current[i] = el)}
-            className="card-wrapper"
-          >
-            <Card data={p} />
-          </div>
+          />
         ))}
       </div>
 
@@ -108,7 +106,7 @@ export default function Projects() {
           margin: auto;
         }
 
-        .card-wrapper {
+        .card {
           perspective: 1000px;
         }
 
@@ -120,12 +118,12 @@ export default function Projects() {
         }
 
         @media (min-width: 769px) {
-          .card-wrapper:hover .inner {
+          .card:hover .inner {
             transform: rotateY(180deg);
           }
         }
 
-        .card-wrapper.flip .inner {
+        .flip .inner {
           transform: rotateY(180deg);
         }
 
@@ -221,7 +219,7 @@ export default function Projects() {
   )
 }
 
-const Card = ({ data }) => {
+const Card = forwardRef(({ data }, ref) => {
   const [review, setReview] = useState("")
   const nextReviewRef = useRef("")
 
@@ -239,8 +237,47 @@ const Card = ({ data }) => {
     nextReviewRef.current = getRandomReview()
   }
 
+  // 🔥 Mobile flip detection (100% reliable)
+ useEffect(() => {
+  const node = ref?.current
+  if (!node) return
+
+  let prevState = node.classList.contains("flip")
+
+  const observer = new MutationObserver(() => {
+    const currentState = node.classList.contains("flip")
+
+    // 🔥 ONLY trigger when going from NOT flipped → flipped
+    if (!prevState && currentState) {
+      swapReview()
+    }
+
+    prevState = currentState
+  })
+
+  observer.observe(node, { attributes: true, attributeFilter: ["class"] })
+
+  return () => observer.disconnect()
+}, [ref])
+
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating)
+    const hasHalf = rating % 1 >= 0.5
+
+    return (
+      <div className="stars">
+        {[...Array(5)].map((_, i) => {
+          if (i < fullStars) return <span key={i} className="star full">★</span>
+          if (i === fullStars && hasHalf) return <span key={i} className="star half">★</span>
+          return <span key={i} className="star empty">★</span>
+        })}
+      </div>
+    )
+  }
+
   return (
     <div
+      ref={ref}
       className="card"
       onMouseEnter={swapReview} // desktop
     >
@@ -254,21 +291,11 @@ const Card = ({ data }) => {
         </div>
 
         <div className="back">
-          <div className="stars">
-            {[...Array(5)].map((_, i) => {
-              const full = Math.floor(data.rating)
-              const half = data.rating % 1 >= 0.5
-
-              if (i < full) return <span key={i} className="star full">★</span>
-              if (i === full && half) return <span key={i} className="star half">★</span>
-              return <span key={i} className="star empty">★</span>
-            })}
-          </div>
-
+          {renderStars(data.rating)}
           <p>"{review}"</p>
           <span>- Verified Client</span>
         </div>
       </div>
     </div>
   )
-}
+})
