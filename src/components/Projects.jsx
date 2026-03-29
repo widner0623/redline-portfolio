@@ -49,6 +49,9 @@ export default function Projects() {
 
           if (entry.isIntersecting) {
             card.classList.add("flip")
+
+            // 🔥 trigger review update BEFORE flip
+            card.dispatchEvent(new Event("flipStart"))
           } else {
             card.classList.remove("flip")
           }
@@ -227,9 +230,8 @@ const Card = forwardRef(({ data }, ref) => {
   const [review, setReview] = useState("")
   const nextReviewRef = useRef("")
 
-  const getRandomReview = () => {
-    return data.reviews[Math.floor(Math.random() * data.reviews.length)]
-  }
+  const getRandomReview = () =>
+    data.reviews[Math.floor(Math.random() * data.reviews.length)]
 
   useEffect(() => {
     const first = getRandomReview()
@@ -241,6 +243,15 @@ const Card = forwardRef(({ data }, ref) => {
     setReview(nextReviewRef.current)
     nextReviewRef.current = getRandomReview()
   }
+
+  // 🔥 listen for mobile scroll flip
+  useEffect(() => {
+    const node = ref?.current
+    if (!node) return
+
+    node.addEventListener("flipStart", handleFlipStart)
+    return () => node.removeEventListener("flipStart", handleFlipStart)
+  }, [ref])
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating)
@@ -261,8 +272,7 @@ const Card = forwardRef(({ data }, ref) => {
     <div
       ref={ref}
       className="card"
-      onMouseEnter={handleFlipStart}
-      onTouchStart={handleFlipStart}
+      onMouseEnter={handleFlipStart} // desktop
     >
       <div className="inner">
         <div className="front">
