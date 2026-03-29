@@ -78,11 +78,12 @@ export default function Projects() {
 
       <div className="grid">
         {projects.map((p, i) => (
-          <Card
-            key={i}
-            data={p}
-            ref={(el) => (refs.current[i] = el)}
-          />
+         <div
+          ref={(el) => (refs.current[i] = el)}
+          className="card-wrapper"
+          >
+         <Card data={p} />
+</div>
         ))}
       </div>
 
