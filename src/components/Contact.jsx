@@ -111,6 +111,10 @@ function Contact() {
 
         /* 🔥 MOBILE */
         @media (max-width: 768px) {
+          .contact-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
           .btn {
             width: 100%;
             max-width: 260px;

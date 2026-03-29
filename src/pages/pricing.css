@@ -164,4 +164,11 @@
   .pricing-page {
     padding: 100px 15px;
   }
+  .pricing-grid {
+    gap: 20px;
+  }
+
+  .pricing-card {
+    padding: 20px;
+  }
 }

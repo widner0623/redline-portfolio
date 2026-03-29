@@ -40,7 +40,6 @@ function Hero() {
       <div className="overlay">
 
         <h1 className="hero-name">Derrick Widner</h1>
-
         <h2 className="typing">{text}</h2>
 
         <p className="hero-desc">
@@ -52,20 +51,15 @@ function Hero() {
         </p>
 
         <div className="hero-buttons">
-          <button
-            onClick={() =>
-              document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
-            }
-          >
+          <button onClick={() =>
+            document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
+          }>
             View Work
           </button>
 
-          <button
-            className="secondary"
-            onClick={() =>
-              document.getElementById("contact").scrollIntoView({ behavior: "smooth" })
-            }
-          >
+          <button className="secondary" onClick={() =>
+            document.getElementById("contact").scrollIntoView({ behavior: "smooth" })
+          }>
             Get Started
           </button>
         </div>
@@ -74,56 +68,29 @@ function Hero() {
 
       <style>{`
         .hero {
-          height: 100vh;
+          min-height: 100vh;
+          padding: 100px 20px;
           background: url("https://images.unsplash.com/photo-1518770660439-4636190af475")
             center/cover no-repeat;
           display: flex;
           justify-content: center;
           align-items: center;
           text-align: center;
-          position: relative;
         }
 
-        /* 🔥 STRONGER OVERLAY */
         .overlay {
           background: rgba(0,0,0,0.7);
           padding: 50px;
           border-radius: 12px;
           backdrop-filter: blur(8px);
-          box-shadow: 0 0 40px rgba(255,0,0,0.2);
-        }
-
-        .hero-name {
-          font-size: 3.2rem;
-          margin-bottom: 10px;
-        }
-
-        .typing {
-          margin-top: 10px;
-          color: red;
-          min-height: 30px;
-          font-size: 1.5rem;
-        }
-
-        .hero-desc {
-          margin-top: 15px;
-          font-size: 1rem;
-          color: #ccc;
-          max-width: 500px;
-        }
-
-        .guarantee {
-          margin-top: 10px;
-          font-size: 13px;
-          color: #888;
         }
 
         .hero-buttons {
           margin-top: 25px;
           display: flex;
-          justify-content: center;
           gap: 15px;
           flex-wrap: wrap;
+          justify-content: center;
         }
 
         button {
@@ -131,14 +98,7 @@ function Hero() {
           background: red;
           border: none;
           color: white;
-          cursor: pointer;
           border-radius: 6px;
-          transition: 0.3s;
-        }
-
-        button:hover {
-          transform: scale(1.05);
-          box-shadow: 0 0 15px red;
         }
 
         .secondary {
@@ -146,19 +106,20 @@ function Hero() {
           border: 1px solid red;
         }
 
-        .secondary:hover {
-          background: red;
-          color: black;
-        }
-
-        /* 🔥 MOBILE */
         @media (max-width: 768px) {
-          .hero-name {
-            font-size: 2.2rem;
+          .hero {
+            min-height: auto;
+            padding: 120px 20px 80px;
           }
 
-          .overlay {
-            padding: 30px;
+          .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .hero-buttons button {
+            width: 100%;
+            max-width: 280px;
           }
         }
       `}</style>

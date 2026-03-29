@@ -124,9 +124,14 @@ export default function Projects() {
 
         .inner {
           position: relative;
-          height: 340px;
+          height: 300px;
           transform-style: preserve-3d;
-          transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @media (max-width: 768px) {
+          .inner {
+            height: 280px;
+          }
         }
 
         @media (min-width: 769px) {

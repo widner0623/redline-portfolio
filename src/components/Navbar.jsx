@@ -6,7 +6,13 @@ function Navbar() {
   const location = useLocation()
 
   const [menuOpen, setMenuOpen] = useState(false)
-  const [mobile, setMobile] = useState(window.innerWidth < 768)
+  const [mobile, setMobile] = useState(false)
+      useEffect(() => {
+        const check = () => setMobile(window.innerWidth < 768)
+        check()
+        window.addEventListener("resize", check)
+      return () => window.removeEventListener("resize", check)
+      }, [])
 
   // ✅ HANDLE RESIZE
   useEffect(() => {
