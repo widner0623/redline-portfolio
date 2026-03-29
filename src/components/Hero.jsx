@@ -38,20 +38,38 @@ function Hero() {
   return (
     <section className="hero" id="home">
       <div className="overlay">
-        <h1>Derrick Widner</h1>
+
+        <h1 className="hero-name">Derrick Widner</h1>
 
         <h2 className="typing">{text}</h2>
 
-        {/* 🔥 GUARANTEE */}
+        <p className="hero-desc">
+          I build modern websites and systems that help businesses grow online.
+        </p>
+
         <p className="guarantee">
           100% Satisfaction Money Back Guarantee
         </p>
 
-        <button onClick={() =>
-          document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
-        }>
-          Explore Work
-        </button>
+        <div className="hero-buttons">
+          <button
+            onClick={() =>
+              document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            View Work
+          </button>
+
+          <button
+            className="secondary"
+            onClick={() =>
+              document.getElementById("contact").scrollIntoView({ behavior: "smooth" })
+            }
+          >
+            Get Started
+          </button>
+        </div>
+
       </div>
 
       <style>{`
@@ -66,27 +84,49 @@ function Hero() {
           position: relative;
         }
 
-        /* 🔥 DARK OVERLAY FOR READABILITY */
+        /* 🔥 STRONGER OVERLAY */
         .overlay {
-          background: rgba(0,0,0,0.6);
-          padding: 40px;
-          border-radius: 10px;
+          background: rgba(0,0,0,0.7);
+          padding: 50px;
+          border-radius: 12px;
+          backdrop-filter: blur(8px);
+          box-shadow: 0 0 40px rgba(255,0,0,0.2);
+        }
+
+        .hero-name {
+          font-size: 3.2rem;
+          margin-bottom: 10px;
         }
 
         .typing {
           margin-top: 10px;
           color: red;
           min-height: 30px;
+          font-size: 1.5rem;
+        }
+
+        .hero-desc {
+          margin-top: 15px;
+          font-size: 1rem;
+          color: #ccc;
+          max-width: 500px;
         }
 
         .guarantee {
-          margin-top: 15px;
-          font-size: 14px;
-          color: #ccc;
+          margin-top: 10px;
+          font-size: 13px;
+          color: #888;
+        }
+
+        .hero-buttons {
+          margin-top: 25px;
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          flex-wrap: wrap;
         }
 
         button {
-          margin-top: 20px;
           padding: 12px 25px;
           background: red;
           border: none;
@@ -99,6 +139,27 @@ function Hero() {
         button:hover {
           transform: scale(1.05);
           box-shadow: 0 0 15px red;
+        }
+
+        .secondary {
+          background: transparent;
+          border: 1px solid red;
+        }
+
+        .secondary:hover {
+          background: red;
+          color: black;
+        }
+
+        /* 🔥 MOBILE */
+        @media (max-width: 768px) {
+          .hero-name {
+            font-size: 2.2rem;
+          }
+
+          .overlay {
+            padding: 30px;
+          }
         }
       `}</style>
     </section>

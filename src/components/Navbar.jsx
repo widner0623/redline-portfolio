@@ -8,28 +8,43 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [mobile, setMobile] = useState(window.innerWidth < 768)
 
+  // ✅ HANDLE RESIZE
   useEffect(() => {
     const resize = () => setMobile(window.innerWidth < 768)
     window.addEventListener("resize", resize)
     return () => window.removeEventListener("resize", resize)
   }, [])
 
+  // ✅ NAVIGATION HELPERS
   const goHome = () => {
     setMenuOpen(false)
     navigate("/")
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }, 100)
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   const goTo = (id) => {
     setMenuOpen(false)
-    navigate("/")
-    setTimeout(() => {
+
+    if (location.pathname !== "/") {
+      navigate("/")
+      setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: "smooth" })
+      }, 150)
+    } else {
       const el = document.getElementById(id)
       if (el) el.scrollIntoView({ behavior: "smooth" })
-    }, 100)
+    }
   }
+
+  const goPage = (path) => {
+    setMenuOpen(false)
+    navigate(path)
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  // ✅ ACTIVE LINK CHECK
+  const isActive = (path) => location.pathname === path
 
   return (
     <nav className="nav">
@@ -37,9 +52,10 @@ function Navbar() {
 
       {!mobile && (
         <div className="links">
-          <span onClick={goHome}>Home</span>
+          <span onClick={goHome} className={isActive("/") ? "active" : ""}>Home</span>
           <span onClick={() => goTo("projects")}>Projects</span>
-          <span onClick={() => navigate("/showcase")}>Showcase</span>
+          <span onClick={() => goPage("/showcase")} className={isActive("/showcase") ? "active" : ""}>Showcase</span>
+          <span onClick={() => goPage("/pricing")} className={isActive("/pricing") ? "active" : ""}>Pricing</span>
           <span onClick={() => goTo("contact")}>Contact</span>
         </div>
       )}
@@ -54,7 +70,8 @@ function Navbar() {
             <div className="mobile">
               <span onClick={goHome}>Home</span>
               <span onClick={() => goTo("projects")}>Projects</span>
-              <span onClick={() => navigate("/showcase")}>Showcase</span>
+              <span onClick={() => goPage("/showcase")}>Showcase</span>
+              <span onClick={() => goPage("/pricing")}>Pricing</span>
               <span onClick={() => goTo("contact")}>Contact</span>
             </div>
           )}
@@ -77,7 +94,7 @@ function Navbar() {
 
         .logo {
           width: 60px;
-          transform: scale(2.2); /* 🔥 bigger without affecting layout */
+          transform: scale(2.2);
           transform-origin: left center;
           cursor: pointer;
           animation: pulse 3s infinite;
@@ -95,6 +112,12 @@ function Navbar() {
           text-shadow: 0 0 10px red;
         }
 
+        /* 🔥 ACTIVE LINK */
+        .active {
+          color: red;
+          text-shadow: 0 0 10px red;
+        }
+
         .hamburger {
           font-size: 34px;
           cursor: pointer;
@@ -108,13 +131,17 @@ function Navbar() {
           padding: 20px;
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 12px;
           box-shadow: 0 0 20px red;
           cursor: pointer;
           z-index: 1;
         }
 
-        /* 🔥 NAVBAR GLOW LINE BACK */
+        .mobile span:hover {
+          color: red;
+        }
+
+        /* 🔥 NAVBAR GLOW LINE */
         .nav::after {
           content: "";
           position: absolute;

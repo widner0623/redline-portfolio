@@ -5,12 +5,27 @@ import Footer from "../components/Footer"
 
 function Home() {
   return (
-    <>
-      <Hero />
-      <Projects />
-      <Contact />
+    <div className="home-page">
+
+      {/* HERO */}
+      <section className="section hero-section">
+        <Hero />
+      </section>
+
+      {/* PROJECTS */}
+      <section className="section fade">
+        <Projects />
+      </section>
+
+      {/* CONTACT */}
+      <section className="section fade">
+        <Contact />
+      </section>
+
+      {/* FOOTER */}
       <Footer />
-    </>
+
+    </div>
   )
 }
 

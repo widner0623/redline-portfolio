@@ -74,7 +74,8 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects">
-      <h2 className="projectText">Projects</h2>
+      <h2 className="projectText">What I Can Do For You</h2>
+      <p className="projectSub">Real solutions that help businesses grow and perform better online.</p>
 
       <div className="grid">
         {projects.map((p, i) => (
@@ -97,6 +98,11 @@ export default function Projects() {
           font-size: 32px;
           font-weight: 600;
         }
+        .projectSub {
+          color: #aaa;
+          margin-bottom: 40px;
+          font-size: 15px;
+}
 
         .grid {
           display: grid;
@@ -108,6 +114,12 @@ export default function Projects() {
 
         .card {
           perspective: 1000px;
+        }
+        .card:hover .inner {
+          box-shadow: 0 0 20px rgba(255,0,0,0.3);
+        }
+        .card:hover .front img {
+          filter: brightness(0.8);
         }
 
         .inner {
@@ -137,31 +149,35 @@ export default function Projects() {
           backface-visibility: hidden;
         }
 
-        .front {
+       .front {
           background: #111;
           display: flex;
           flex-direction: column;
+          transition: 0.3s;
         }
 
         .front img {
           width: 100%;
           height: 180px;
           object-fit: cover;
-          filter: brightness(0.7);
+          filter: brightness(0.6);
+          transition: 0.3s;
         }
 
         .front-content {
-          padding: 18px;
+          padding: 20px;
           text-align: left;
         }
 
         .front-content h3 {
           margin-bottom: 10px;
+          font-size: 1.2rem;
         }
 
         .front-content p {
           color: #ccc;
-          line-height: 1.4;
+          line-height: 1.5;
+          font-size: 0.95rem;
         }
 
         .back {
@@ -171,8 +187,9 @@ export default function Projects() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding: 20px;
-          box-shadow: 0 0 40px rgba(255,0,0,0.6);
+          padding: 25px;
+          box-shadow: 0 0 35px rgba(255,0,0,0.6);
+          border: 1px solid rgba(255,0,0,0.3);
         }
 
         .stars {
@@ -283,7 +300,7 @@ const Card = forwardRef(({ data }, ref) => {
     >
       <div className="inner">
         <div className="front">
-          <img src={data.img} />
+          <img src={data.img} alt={data.title} />
           <div className="front-content">
             <h3>{data.title}</h3>
             <p>{data.desc}</p>

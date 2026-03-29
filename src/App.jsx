@@ -1,13 +1,16 @@
 import Navbar from "./components/Navbar"
 import Home from "./pages/Home"
 import Showcase from "./pages/Showcase"
+import Pricing from "./pages/Pricing"
 import { Routes, Route } from "react-router-dom"
 import { useEffect } from "react"
 
 function App() {
 
-  // 🔥 CURSOR GLOW
+  // 🔥 CURSOR GLOW (DESKTOP ONLY)
   useEffect(() => {
+    if (window.innerWidth <= 768) return
+
     const glow = document.querySelector(".cursor-glow")
 
     const move = (e) => {
@@ -17,10 +20,13 @@ function App() {
     }
 
     window.addEventListener("mousemove", move)
-    return () => window.removeEventListener("mousemove", move)
+
+    return () => {
+      window.removeEventListener("mousemove", move)
+    }
   }, [])
 
-  // 🔥 FADE-IN OBSERVER
+  // 🔥 FADE-IN OBSERVER (CLEANED)
   useEffect(() => {
     const elements = document.querySelectorAll(".fade")
 
@@ -30,20 +36,28 @@ function App() {
           entry.target.classList.add("show")
         }
       })
+    }, {
+      threshold: 0.2
     })
 
     elements.forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
   }, [])
 
   return (
     <>
+      {/* Cursor Glow */}
       <div className="cursor-glow"></div>
 
+      {/* Navbar */}
       <Navbar />
 
+      {/* Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/showcase" element={<Showcase />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Routes>
     </>
   )
