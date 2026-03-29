@@ -225,20 +225,21 @@ export default function Projects() {
 
 const Card = forwardRef(({ data }, ref) => {
   const [review, setReview] = useState("")
+  const nextReviewRef = useRef("")
 
-  const randomReview = () => {
-    const r = data.reviews[Math.floor(Math.random() * data.reviews.length)]
-    setReview(r)
+  const getRandomReview = () => {
+    return data.reviews[Math.floor(Math.random() * data.reviews.length)]
   }
 
   useEffect(() => {
-    randomReview()
+    const first = getRandomReview()
+    setReview(first)
+    nextReviewRef.current = getRandomReview()
   }, [])
 
-  const handleTransitionEnd = (e) => {
-    if (e.propertyName === "transform") {
-      randomReview()
-    }
+  const handleFlipStart = () => {
+    setReview(nextReviewRef.current)
+    nextReviewRef.current = getRandomReview()
   }
 
   const renderStars = (rating) => {
@@ -257,11 +258,13 @@ const Card = forwardRef(({ data }, ref) => {
   }
 
   return (
-    <div ref={ref} className="card">
-      <div
-        className="inner"
-        onTransitionEnd={handleTransitionEnd}
-      >
+    <div
+      ref={ref}
+      className="card"
+      onMouseEnter={handleFlipStart}
+      onTouchStart={handleFlipStart}
+    >
+      <div className="inner">
         <div className="front">
           <img src={data.img} />
           <div className="front-content">
