@@ -110,6 +110,8 @@ function Navbar() {
           flex-direction: column;
           gap: 10px;
           box-shadow: 0 0 20px red;
+          cursor: pointer;
+          z-index: 1;
         }
 
         /* 🔥 NAVBAR GLOW LINE BACK */
@@ -121,6 +123,7 @@ function Navbar() {
           height: 2px;
           background: linear-gradient(90deg, transparent, red, transparent);
           animation: move 4s linear infinite;
+          z-index: -1;
         }
 
         @keyframes move {
