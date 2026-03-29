@@ -73,7 +73,13 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects">
-      <h2>Projects</h2>
+      <h2 className="projectText">Projects
+        <style>
+          .projectText {`
+            margin-bottom: 20px;
+          `}
+        </style>
+      </h2>
 
       <div className="grid">
         {projects.map((p, i) => (
