@@ -56,7 +56,7 @@ export default function Projects() {
         })
       },
       {
-        rootMargin: "0px 0px -40% 0px",
+        rootMargin: "-50% 0px -50% 0px",
         threshold: 0.5
       }
     )
