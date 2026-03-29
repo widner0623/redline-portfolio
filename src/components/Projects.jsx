@@ -40,7 +40,8 @@ export default function Projects() {
   const refs = useRef([])
 
   useEffect(() => {
-    if (window.innerWidth > 768) return
+    const isDesktop = window.matchMedia("(min-width: 769px)").matches
+    if (isDesktop) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -55,8 +56,8 @@ export default function Projects() {
         })
       },
       {
-        rootMargin: "-50% 0px -50% 0px",
-        threshold: 0
+        rootMargin: "0px 0px -40% 0px",
+        threshold: 0.5
       }
     )
 
