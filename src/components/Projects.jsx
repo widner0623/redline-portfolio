@@ -205,6 +205,7 @@ export default function Projects() {
         .back p {
           margin-top: 10px;
           text-align: center;
+          line-height: 1.4;
         }
 
         .back span {
@@ -230,20 +231,29 @@ const Card = forwardRef(({ data }, ref) => {
     nextReviewRef.current = getRandomReview()
   }, [])
 
-  // 🔥 detect flip via class change (reliable mobile fix)
+  const swapReview = () => {
+    setReview(nextReviewRef.current)
+    nextReviewRef.current = getRandomReview()
+  }
+
+  // 🔥 Mobile flip detection (100% reliable)
   useEffect(() => {
     const node = ref?.current
     if (!node) return
 
-    const checkFlip = () => {
-      if (node.classList.contains("flip")) {
-        setReview(nextReviewRef.current)
-        nextReviewRef.current = getRandomReview()
-      }
-    }
+    let wasFlipped = false
 
-    const observer = new MutationObserver(checkFlip)
-    observer.observe(node, { attributes: true })
+    const observer = new MutationObserver(() => {
+      const isFlipped = node.classList.contains("flip")
+
+      if (isFlipped && !wasFlipped) {
+        swapReview()
+      }
+
+      wasFlipped = isFlipped
+    })
+
+    observer.observe(node, { attributes: true, attributeFilter: ["class"] })
 
     return () => observer.disconnect()
   }, [ref])
@@ -264,7 +274,11 @@ const Card = forwardRef(({ data }, ref) => {
   }
 
   return (
-    <div ref={ref} className="card">
+    <div
+      ref={ref}
+      className="card"
+      onMouseEnter={swapReview} // desktop
+    >
       <div className="inner">
         <div className="front">
           <img src={data.img} />
