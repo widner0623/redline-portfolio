@@ -54,12 +54,6 @@ function Showcase() {
           font-size: 14px;
           color: #666;
         }
-
-        @keyframes pulse {
-          0% { opacity: 0.6; }
-          50% { opacity: 1; }
-          100% { opacity: 0.6; }
-        }
       `}</style>
     </section>
   )
