@@ -46,28 +46,28 @@ export default function Projects() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const card = entry.target
+          const wrapper = entry.target
 
           if (entry.isIntersecting) {
-            card.classList.add("flip")
+            wrapper.classList.add("flip")
           } else {
-            card.classList.remove("flip")
+            wrapper.classList.remove("flip")
           }
         })
       },
       {
-        rootMargin: "-50% 0px -50% 0px",
-        threshold: 0.5
+        rootMargin: "0px 0px -40% 0px",
+        threshold: 0.2
       }
     )
 
-    refs.current.forEach((card) => {
-      if (card) observer.observe(card)
+    refs.current.forEach((el) => {
+      if (el) observer.observe(el)
     })
 
     return () => {
-      refs.current.forEach((card) => {
-        if (card) observer.unobserve(card)
+      refs.current.forEach((el) => {
+        if (el) observer.unobserve(el)
       })
     }
   }, [])
@@ -78,11 +78,13 @@ export default function Projects() {
 
       <div className="grid">
         {projects.map((p, i) => (
-          <Card
+          <div
             key={i}
-            data={p}
             ref={(el) => (refs.current[i] = el)}
-          />
+            className="card-wrapper"
+          >
+            <Card data={p} />
+          </div>
         ))}
       </div>
 
@@ -106,7 +108,7 @@ export default function Projects() {
           margin: auto;
         }
 
-        .card {
+        .card-wrapper {
           perspective: 1000px;
         }
 
@@ -118,12 +120,12 @@ export default function Projects() {
         }
 
         @media (min-width: 769px) {
-          .card:hover .inner {
+          .card-wrapper:hover .inner {
             transform: rotateY(180deg);
           }
         }
 
-        .flip .inner {
+        .card-wrapper.flip .inner {
           transform: rotateY(180deg);
         }
 
@@ -219,7 +221,7 @@ export default function Projects() {
   )
 }
 
-const Card = forwardRef(({ data }, ref) => {
+const Card = ({ data }) => {
   const [review, setReview] = useState("")
   const nextReviewRef = useRef("")
 
@@ -237,47 +239,8 @@ const Card = forwardRef(({ data }, ref) => {
     nextReviewRef.current = getRandomReview()
   }
 
-  // 🔥 Mobile flip detection (100% reliable)
- useEffect(() => {
-  const node = ref?.current
-  if (!node) return
-
-  let prevState = node.classList.contains("flip")
-
-  const observer = new MutationObserver(() => {
-    const currentState = node.classList.contains("flip")
-
-    // 🔥 ONLY trigger when going from NOT flipped → flipped
-    if (!prevState && currentState) {
-      swapReview()
-    }
-
-    prevState = currentState
-  })
-
-  observer.observe(node, { attributes: true, attributeFilter: ["class"] })
-
-  return () => observer.disconnect()
-}, [ref])
-
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating)
-    const hasHalf = rating % 1 >= 0.5
-
-    return (
-      <div className="stars">
-        {[...Array(5)].map((_, i) => {
-          if (i < fullStars) return <span key={i} className="star full">★</span>
-          if (i === fullStars && hasHalf) return <span key={i} className="star half">★</span>
-          return <span key={i} className="star empty">★</span>
-        })}
-      </div>
-    )
-  }
-
   return (
     <div
-      ref={ref}
       className="card"
       onMouseEnter={swapReview} // desktop
     >
@@ -291,11 +254,21 @@ const Card = forwardRef(({ data }, ref) => {
         </div>
 
         <div className="back">
-          {renderStars(data.rating)}
+          <div className="stars">
+            {[...Array(5)].map((_, i) => {
+              const full = Math.floor(data.rating)
+              const half = data.rating % 1 >= 0.5
+
+              if (i < full) return <span key={i} className="star full">★</span>
+              if (i === full && half) return <span key={i} className="star half">★</span>
+              return <span key={i} className="star empty">★</span>
+            })}
+          </div>
+
           <p>"{review}"</p>
           <span>- Verified Client</span>
         </div>
       </div>
     </div>
   )
-})
+}
