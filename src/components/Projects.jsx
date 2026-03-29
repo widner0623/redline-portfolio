@@ -90,6 +90,7 @@ export default function Projects() {
           padding: 100px 20px;
           text-align: center;
         }
+
         .projectText {
           margin-bottom: 35px;
           font-size: 32px;
@@ -234,6 +235,12 @@ const Card = forwardRef(({ data }, ref) => {
     randomReview()
   }, [])
 
+  const handleTransitionEnd = (e) => {
+    if (e.propertyName === "transform") {
+      randomReview()
+    }
+  }
+
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating)
     const hasHalf = rating % 1 >= 0.5
@@ -250,13 +257,11 @@ const Card = forwardRef(({ data }, ref) => {
   }
 
   return (
-    <div
-      ref={ref}
-      className="card"
-      onMouseEnter={randomReview}
-      onTouchStart={randomReview}
-    >
-      <div className="inner">
+    <div ref={ref} className="card">
+      <div
+        className="inner"
+        onTransitionEnd={handleTransitionEnd}
+      >
         <div className="front">
           <img src={data.img} />
           <div className="front-content">
