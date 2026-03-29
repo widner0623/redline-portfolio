@@ -1,38 +1,68 @@
-import { motion } from "framer-motion"
-
 function Showcase() {
   return (
-    <section style={{ textAlign: "center" }}>
-      <h1>Capabilities</h1>
+    <section className="showcase">
+      <div className="content">
+        <h1>Showcase</h1>
 
-      <div style={{ marginTop: "40px" }}>
-        {["Frontend", "Backend", "UI/UX", "Performance"].map((skill, i) => (
-          <div key={i} style={{ marginBottom: "20px" }}>
-            <p>{skill}</p>
-            <div style={bar}>
-              <motion.div
-                style={fill}
-                initial={{ width: 0 }}
-                whileInView={{ width: `${80 + i * 5}%` }}
-                transition={{ duration: 1 }}
-              />
-            </div>
-          </div>
-        ))}
+        <p className="coming">
+          🚧 Coming Soon
+        </p>
+
+        <p className="desc">
+          I’m currently building out real-world projects and live demos.
+          This section will showcase full applications, UI systems, and advanced functionality.
+        </p>
+
+        <p className="sub">
+          Stay tuned — this is where things get serious.
+        </p>
       </div>
+
+      <style>{`
+        .showcase {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 20px;
+        }
+
+        .content {
+          max-width: 600px;
+        }
+
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .coming {
+          margin-top: 20px;
+          font-size: 1.8rem;
+          color: red;
+          animation: pulse 2s infinite;
+        }
+
+        .desc {
+          margin-top: 20px;
+          color: #aaa;
+          line-height: 1.6;
+        }
+
+        .sub {
+          margin-top: 15px;
+          font-size: 14px;
+          color: #666;
+        }
+
+        @keyframes pulse {
+          0% { opacity: 0.6; }
+          50% { opacity: 1; }
+          100% { opacity: 0.6; }
+        }
+      `}</style>
     </section>
   )
-}
-
-const bar = {
-  width: "100%",
-  height: "10px",
-  background: "#222"
-}
-
-const fill = {
-  height: "100%",
-  background: "red"
 }
 
 export default Showcase

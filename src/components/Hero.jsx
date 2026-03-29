@@ -1,116 +1,105 @@
-import { motion } from "framer-motion"
-import { TypeAnimation } from "react-type-animation"
-import Particles from "react-tsparticles"
-import { loadFull } from "tsparticles"
+import { useEffect, useState } from "react"
 
-const bg = "https://images.unsplash.com/photo-1518770660439-4636190af475"
+const roles = [
+  "Software Engineer",
+  "Web Developer",
+  "UI/UX Designer",
+  "Automation Specialist"
+]
 
 function Hero() {
+  const [text, setText] = useState("")
+  const [index, setIndex] = useState(0)
+  const [subIndex, setSubIndex] = useState(0)
+  const [deleting, setDeleting] = useState(false)
 
-  const particlesInit = async (main) => {
-    await loadFull(main)
-  }
+  useEffect(() => {
+    if (subIndex === roles[index].length + 1 && !deleting) {
+      setTimeout(() => setDeleting(true), 1000)
+      return
+    }
+
+    if (subIndex === 0 && deleting) {
+      setDeleting(false)
+      setIndex((prev) => (prev + 1) % roles.length)
+      return
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (deleting ? -1 : 1))
+    }, deleting ? 40 : 80)
+
+    setText(roles[index].substring(0, subIndex))
+
+    return () => clearTimeout(timeout)
+  }, [subIndex, index, deleting])
 
   return (
-    <section style={{
-      height: "100vh",
-      position: "relative",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      textAlign: "center",
-      overflow: "hidden"
-    }}>
+    <section className="hero" id="home">
+      <div className="overlay">
+        <h1>Derrick Widner</h1>
 
-      {/* 🔥 BACKGROUND IMAGE */}
-      <div style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        zIndex: 0
-      }} />
+        <h2 className="typing">{text}</h2>
 
-      {/* 🔥 DARK OVERLAY */}
-      <div style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        background: "rgba(0,0,0,0.7)",
-        zIndex: 1
-      }} />
+        {/* 🔥 GUARANTEE */}
+        <p className="guarantee">
+          100% Satisfaction Money Back Guarantee
+        </p>
 
-      {/* 🔥 PARTICLES */}
-      <Particles
-        init={particlesInit}
-        options={{
-          particles: {
-            number: { value: 50 },
-            color: { value: "#ff0000" },
-            links: { enable: true, color: "#ff0000" },
-            move: { enable: true, speed: 1 }
-          }
-        }}
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          zIndex: 2
-        }}
-      />
-
-      {/* 🔥 CONTENT */}
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        animate={{ opacity: 1, y: 0 }}
-        style={{
-          zIndex: 3,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        }}
-      >
-        <h1 style={{ fontSize: "3.8rem" }}>
-          Derrick Widner
-        </h1>
-
-        <h2 style={{ color: "red" }}>
-          Redline Labs
-        </h2>
-
-        <TypeAnimation
-          sequence={[
-            "Full Stack Developer",1500,
-            "Software Engineer",1500,
-            "UI/UX Designer",1500,
-            "Automation Engineer",1500,
-            "Game Developer",1500,
-            "Building at the Redline",2000
-          ]}
-          repeat={Infinity}
-          speed={40}
-          style={{ marginBottom: "30px", color: "#aaa" }}
-        />
-
-        <motion.button
-          whileHover={{ scale: 1.1, boxShadow: "0 0 20px red" }}
-          style={{
-            padding: "14px 28px",
-            background: "red",
-            border: "none",
-            borderRadius: "8px",
-            color: "white"
-          }}
-          onClick={() => {
-            document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
-          }}
-        >
+        <button onClick={() =>
+          document.getElementById("projects").scrollIntoView({ behavior: "smooth" })
+        }>
           Explore Work
-        </motion.button>
-      </motion.div>
+        </button>
+      </div>
 
+      <style>{`
+        .hero {
+          height: 100vh;
+          background: url("https://images.unsplash.com/photo-1518770660439-4636190af475")
+            center/cover no-repeat;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          position: relative;
+        }
+
+        /* 🔥 DARK OVERLAY FOR READABILITY */
+        .overlay {
+          background: rgba(0,0,0,0.6);
+          padding: 40px;
+          border-radius: 10px;
+        }
+
+        .typing {
+          margin-top: 10px;
+          color: red;
+          min-height: 30px;
+        }
+
+        .guarantee {
+          margin-top: 15px;
+          font-size: 14px;
+          color: #ccc;
+        }
+
+        button {
+          margin-top: 20px;
+          padding: 12px 25px;
+          background: red;
+          border: none;
+          color: white;
+          cursor: pointer;
+          border-radius: 6px;
+          transition: 0.3s;
+        }
+
+        button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 15px red;
+        }
+      `}</style>
     </section>
   )
 }

@@ -6,110 +6,61 @@ function Navbar() {
   const location = useLocation()
 
   const [menuOpen, setMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-  const [activeSection, setActiveSection] = useState("")
+  const [mobile, setMobile] = useState(window.innerWidth < 768)
 
-  /* 📱 MOBILE DETECTION */
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
+    const resize = () => setMobile(window.innerWidth < 768)
+    window.addEventListener("resize", resize)
+    return () => window.removeEventListener("resize", resize)
   }, [])
 
-  /* 🔥 SCROLL HIGHLIGHT */
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["projects", "contact"]
-      let current = ""
-
-      sections.forEach((id) => {
-        const el = document.getElementById(id)
-        if (!el) return
-
-        const rect = el.getBoundingClientRect()
-
-        if (rect.top <= 150 && rect.bottom >= 150) {
-          current = id
-        }
-      })
-
-      setActiveSection(current)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  /* 🔁 NAVIGATION */
-  const goTo = (path, section) => {
+  const goHome = () => {
     setMenuOpen(false)
-
-    if (path) {
-      navigate(path)
-      return
-    }
-
     navigate("/")
     setTimeout(() => {
-      const el = document.getElementById(section)
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }, 100)
+  }
+
+  const goTo = (id) => {
+    setMenuOpen(false)
+    navigate("/")
+    setTimeout(() => {
+      const el = document.getElementById(id)
       if (el) el.scrollIntoView({ behavior: "smooth" })
     }, 100)
   }
 
   return (
     <nav className="nav">
-      {/* LOGO */}
-      <img
-        src="/logo.png"
-        alt="logo"
-        className="logo"
-        onClick={() => goTo("/", null)}
-      />
+      <img src="/logo.png" className="logo" onClick={goHome} />
 
-      {/* DESKTOP NAV */}
-      {!isMobile && (
-        <div className="nav-links">
-          <NavItem
-            label="Home"
-            active={location.pathname === "/" && !activeSection}
-            onClick={() => goTo("/", null)}
-          />
-          <NavItem
-            label="Projects"
-            active={activeSection === "projects"}
-            onClick={() => goTo(null, "projects")}
-          />
-          <NavItem
-            label="Showcase"
-            active={location.pathname === "/showcase"}
-            onClick={() => goTo("/showcase")}
-          />
-          <NavItem
-            label="Contact"
-            active={activeSection === "contact"}
-            onClick={() => goTo(null, "contact")}
-          />
+      {!mobile && (
+        <div className="links">
+          <span onClick={goHome}>Home</span>
+          <span onClick={() => goTo("projects")}>Projects</span>
+          <span onClick={() => navigate("/showcase")}>Showcase</span>
+          <span onClick={() => goTo("contact")}>Contact</span>
         </div>
       )}
 
-      {/* HAMBURGER */}
-      {isMobile && (
-        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-          ☰
-        </div>
+      {mobile && (
+        <>
+          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            ☰
+          </div>
+
+          {menuOpen && (
+            <div className="mobile">
+              <span onClick={goHome}>Home</span>
+              <span onClick={() => goTo("projects")}>Projects</span>
+              <span onClick={() => navigate("/showcase")}>Showcase</span>
+              <span onClick={() => goTo("contact")}>Contact</span>
+            </div>
+          )}
+        </>
       )}
 
-      {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="mobile-menu">
-          <MobileItem label="Home" onClick={() => goTo("/", null)} />
-          <MobileItem label="Projects" onClick={() => goTo(null, "projects")} />
-          <MobileItem label="Showcase" onClick={() => goTo("/showcase")} />
-          <MobileItem label="Contact" onClick={() => goTo(null, "contact")} />
-        </div>
-      )}
-
-      {/* STYLES */}
       <style>{`
         .nav {
           position: fixed;
@@ -118,113 +69,70 @@ function Navbar() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 16px 40px;
-          background: rgba(0,0,0,0.65);
-          backdrop-filter: blur(14px);
+          padding: 16px 30px;
+          background: rgba(0,0,0,0.8);
+          backdrop-filter: blur(10px);
           z-index: 1000;
         }
 
         .logo {
           width: 60px;
-          transform: scale(1.9);
-          transform-origin: left center;
           cursor: pointer;
-          animation: logoPulse 3s ease-in-out infinite;
+          animation: pulse 3s infinite;
         }
 
-        .nav-links {
-          display: flex;
-          gap: 30px;
-        }
-
-        .nav-item {
+        .links span {
+          font-size: 20px;
+          margin-left: 25px;
           cursor: pointer;
-          color: white;
           transition: 0.3s;
         }
 
-        .nav-item:hover {
+        .links span:hover {
           color: red;
           text-shadow: 0 0 10px red;
         }
 
-        .active {
-          color: red;
-          text-shadow: 0 0 12px red;
-        }
-
-        /* 🔥 BIGGER HAMBURGER */
         .hamburger {
           font-size: 34px;
-          padding: 8px;
-          color: white;
           cursor: pointer;
         }
 
-        .mobile-menu {
+        .mobile {
           position: absolute;
           top: 70px;
           right: 20px;
-          background: rgba(0,0,0,0.95);
+          background: black;
           padding: 20px;
-          border-radius: 10px;
           display: flex;
           flex-direction: column;
-          gap: 15px;
-          box-shadow: 0 0 20px rgba(255,0,0,0.4);
+          gap: 10px;
+          box-shadow: 0 0 20px red;
         }
 
-        /* 🔴 ANIMATED GLOW LINE */
+        /* 🔥 NAVBAR GLOW LINE BACK */
         .nav::after {
           content: "";
           position: absolute;
           bottom: 0;
-          left: 0;
           width: 100%;
           height: 2px;
           background: linear-gradient(90deg, transparent, red, transparent);
-          animation: glowMove 4s linear infinite;
+          animation: move 4s linear infinite;
         }
 
-        @keyframes glowMove {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
+        @keyframes move {
+          0% { transform: translateX(-100%) }
+          100% { transform: translateX(100%) }
         }
 
-        @keyframes logoPulse {
-          0% { filter: drop-shadow(0 0 10px rgba(255,0,0,0.6)); }
-          50% { filter: drop-shadow(0 0 25px rgba(255,0,0,1)); }
-          100% { filter: drop-shadow(0 0 10px rgba(255,0,0,0.6)); }
-        }
-
-        @media (max-width: 768px) {
-          .nav-links {
-            display: none;
-          }
+        @keyframes pulse {
+          0% { filter: drop-shadow(0 0 10px red); }
+          50% { filter: drop-shadow(0 0 25px red); }
+          100% { filter: drop-shadow(0 0 10px red); }
         }
       `}</style>
     </nav>
-  )
-}
-
-/* NAV ITEM */
-function NavItem({ label, onClick, active }) {
-  return (
-    <div
-      onClick={onClick}
-      className={`nav-item ${active ? "active" : ""}`}
-    >
-      {label}
-    </div>
-  )
-}
-
-/* MOBILE ITEM */
-function MobileItem({ label, onClick }) {
-  return (
-    <div className="nav-item" onClick={onClick}>
-      {label}
-    </div>
   )
 }
 
