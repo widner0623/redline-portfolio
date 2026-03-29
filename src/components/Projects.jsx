@@ -76,7 +76,9 @@ export default function Projects() {
       <h2 className="projectText">Projects
         <style>
           .projectText {`
-            margin: 0 0 20px 0;
+            margin-bottom: 35px;
+            font-size: 32px;
+            font-weight: 600;
           `}
         </style>
       </h2>
