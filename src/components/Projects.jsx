@@ -237,26 +237,27 @@ const Card = forwardRef(({ data }, ref) => {
   }
 
   // 🔥 Mobile flip detection (100% reliable)
-  useEffect(() => {
-    const node = ref?.current
-    if (!node) return
+ useEffect(() => {
+  const node = ref?.current
+  if (!node) return
 
-    let wasFlipped = false
+  let prevState = node.classList.contains("flip")
 
-    const observer = new MutationObserver(() => {
-      const isFlipped = node.classList.contains("flip")
+  const observer = new MutationObserver(() => {
+    const currentState = node.classList.contains("flip")
 
-      if (isFlipped && !wasFlipped) {
-        swapReview()
-      }
+    // 🔥 ONLY trigger when going from NOT flipped → flipped
+    if (!prevState && currentState) {
+      swapReview()
+    }
 
-      wasFlipped = isFlipped
-    })
+    prevState = currentState
+  })
 
-    observer.observe(node, { attributes: true, attributeFilter: ["class"] })
+  observer.observe(node, { attributes: true, attributeFilter: ["class"] })
 
-    return () => observer.disconnect()
-  }, [ref])
+  return () => observer.disconnect()
+}, [ref])
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating)
