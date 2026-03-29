@@ -172,6 +172,11 @@ footer {
   transform: translate(-50%, -50%);
   z-index: 0;
 }
+@media (max-width: 768px), (hover: none){
+    .cursor-glow{
+      display: none !important;
+    }
+}
 
 /* FADE */
 .fade {
