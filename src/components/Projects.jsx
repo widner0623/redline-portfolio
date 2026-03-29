@@ -52,7 +52,8 @@ export default function Projects() {
         })
       },
       {
-        threshold: 0.6
+        rootMargin: "-50% 0px -50% 0px", //Key to flip in middle of viewport
+        threshold: 0
       }
     )
 
@@ -103,7 +104,7 @@ export default function Projects() {
           position: relative;
           height: 320px;
           transform-style: preserve-3d;
-          transition: transform 0.5s ease;
+          transition: transform 0.6s ease cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         /* DESKTOP ONLY */
