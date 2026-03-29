@@ -233,24 +233,33 @@ const Card = forwardRef(({ data }, ref) => {
   const getRandomReview = () =>
     data.reviews[Math.floor(Math.random() * data.reviews.length)]
 
+  // initial setup
   useEffect(() => {
     const first = getRandomReview()
     setReview(first)
     nextReviewRef.current = getRandomReview()
   }, [])
 
-  const handleFlipStart = () => {
+  // 🔥 swap BEFORE flip is visible
+  const swapReview = () => {
     setReview(nextReviewRef.current)
     nextReviewRef.current = getRandomReview()
   }
 
-  // 🔥 listen for mobile scroll flip
+  // 🔥 MOBILE: detect class change (flip added)
   useEffect(() => {
     const node = ref?.current
     if (!node) return
 
-    node.addEventListener("flipStart", handleFlipStart)
-    return () => node.removeEventListener("flipStart", handleFlipStart)
+    const observer = new MutationObserver(() => {
+      if (node.classList.contains("flip")) {
+        swapReview()
+      }
+    })
+
+    observer.observe(node, { attributes: true, attributeFilter: ["class"] })
+
+    return () => observer.disconnect()
   }, [ref])
 
   const renderStars = (rating) => {
@@ -272,7 +281,7 @@ const Card = forwardRef(({ data }, ref) => {
     <div
       ref={ref}
       className="card"
-      onMouseEnter={handleFlipStart} // desktop
+      onMouseEnter={swapReview} // desktop trigger
     >
       <div className="inner">
         <div className="front">
