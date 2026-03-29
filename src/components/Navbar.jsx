@@ -77,6 +77,8 @@ function Navbar() {
 
         .logo {
           width: 60px;
+          transform: scale(2.2); /* 🔥 bigger without affecting layout */
+          transform-origin: left center;
           cursor: pointer;
           animation: pulse 3s infinite;
         }

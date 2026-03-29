@@ -36,22 +36,33 @@ const projects = [
 export default function Projects() {
   const refs = useRef([])
 
-  useEffect(() => {
-    const scroll = () => {
-      if (window.innerWidth > 768) return
+ useEffect(() => {
+  const handleScroll = () => {
+    const isMobile = window.innerWidth < 768
+    if (!isMobile) return
 
-      refs.current.forEach((c) => {
-        if (!c) return
-        const r = c.getBoundingClientRect()
-        const mid = window.innerHeight * 0.6
-        c.classList.toggle("flip", r.top < mid && r.bottom > mid)
-      })
-    }
+    refs.current.forEach((card) => {
+      if (!card) return
 
-    window.addEventListener("scroll", scroll)
-    scroll()
-    return () => window.removeEventListener("scroll", scroll)
-  }, [])
+      const rect = card.getBoundingClientRect()
+      const screenMiddle = window.innerHeight / 2
+
+      const isInCenter =
+        rect.top < screenMiddle && rect.bottom > screenMiddle
+
+      if (isInCenter) {
+        card.classList.add("flip")
+      } else {
+        card.classList.remove("flip")
+      }
+    })
+  }
+
+  window.addEventListener("scroll", handleScroll, { passive: true })
+  handleScroll()
+
+  return () => window.removeEventListener("scroll", handleScroll)
+}, [])
 
   return (
     <section id="projects" className="projects">
