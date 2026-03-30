@@ -7,60 +7,82 @@ function Navbar() {
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [mobile, setMobile] = useState(false)
-      useEffect(() => {
-        const check = () => setMobile(window.innerWidth < 768)
-        check()
-        window.addEventListener("resize", check)
-      return () => window.removeEventListener("resize", check)
-      }, [])
+  const [activeSection, setActiveSection] = useState("home")
 
-  // ✅ HANDLE RESIZE
+  // 🔥 HANDLE MOBILE DETECTION
   useEffect(() => {
-    const resize = () => setMobile(window.innerWidth < 768)
-    window.addEventListener("resize", resize)
-    return () => window.removeEventListener("resize", resize)
+    const check = () => setMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener("resize", check)
+    return () => window.removeEventListener("resize", check)
   }, [])
 
-  // ✅ NAVIGATION HELPERS
+  // 🔥 SCROLL DETECTION FOR ACTIVE LINKS
+  useEffect(() => {
+    const handleScroll = () => {
+      if (location.pathname !== "/") return
+
+      const sections = ["home", "projects", "contact"]
+
+      for (let section of sections) {
+        const el = document.getElementById(section)
+        if (!el) continue
+
+        const rect = el.getBoundingClientRect()
+
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          setActiveSection(section)
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [location.pathname])
+
+  // 🔥 NAVIGATION FUNCTIONS
   const goHome = () => {
     setMenuOpen(false)
+
     if (location.pathname !== "/") {
       navigate("/")
     } else {
-    window.scrollTo({ top: 0, behavior: "smooth" })
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
   }
-
-  const goTo = (id) => {
-  setMenuOpen(false)
-
-  if (location.pathname !== "/") {
-    navigate("/")
-
-    // Wait until DOM is ready
-    setTimeout(() => {
-      const interval = setInterval(() => {
-        const el = document.getElementById(id)
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" })
-          clearInterval(interval)
-        }
-      }, 50)
-    }, 100)
-  } else {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: "smooth" })
-  }
-}
 
   const goPage = (path) => {
     setMenuOpen(false)
     navigate(path)
-    window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  // ✅ ACTIVE LINK CHECK
-  const isActive = (path) => location.pathname === path
+  const goTo = (id) => {
+    setMenuOpen(false)
+
+    if (location.pathname !== "/") {
+      navigate("/")
+
+      setTimeout(() => {
+        const interval = setInterval(() => {
+          const el = document.getElementById(id)
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" })
+            clearInterval(interval)
+          }
+        }, 50)
+      }, 100)
+    } else {
+      const el = document.getElementById(id)
+      if (el) el.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
+  // 🔥 ACTIVE CHECK
+  const isActive = (path, section) => {
+    if (path && location.pathname !== path) return false
+    if (section) return activeSection === section
+    return location.pathname === path
+  }
 
   return (
     <nav className="nav">
@@ -68,11 +90,25 @@ function Navbar() {
 
       {!mobile && (
         <div className="links">
-          <span onClick={goHome} className={isActive("/") ? "active" : ""}>Home</span>
-          <span onClick={() => goTo("projects")}>Projects</span>
-          <span onClick={() => goPage("/showcase")} className={isActive("/showcase") ? "active" : ""}>Showcase</span>
-          <span onClick={() => goPage("/pricing")} className={isActive("/pricing") ? "active" : ""}>Pricing</span>
-          <span onClick={() => goTo("contact")}>Contact</span>
+          <span onClick={goHome} className={isActive("/", "home") ? "active" : ""}>
+            Home
+          </span>
+
+          <span onClick={() => goTo("projects")} className={activeSection === "projects" ? "active" : ""}>
+            Projects
+          </span>
+
+          <span onClick={() => goPage("/showcase")} className={isActive("/showcase") ? "active" : ""}>
+            Showcase
+          </span>
+
+          <span onClick={() => goPage("/pricing")} className={isActive("/pricing") ? "active" : ""}>
+            Pricing
+          </span>
+
+          <span onClick={() => goTo("contact")} className={activeSection === "contact" ? "active" : ""}>
+            Contact
+          </span>
         </div>
       )}
 
@@ -149,8 +185,11 @@ function Navbar() {
           flex-direction: column;
           gap: 12px;
           box-shadow: 0 0 20px red;
-          cursor: pointer;
           z-index: 1;
+        }
+
+        .mobile span {
+          cursor: pointer;
         }
 
         .mobile span:hover {
