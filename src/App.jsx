@@ -1,11 +1,18 @@
 import Navbar from "./components/Navbar"
 import Home from "./pages/Home"
 import Showcase from "./pages/Showcase"
-import Pricing from "./pages/Pricing"
-import { Routes, Route } from "react-router-dom"
+import Pricing from "./pages/pricing"
+
+import { Routes, Route, useLocation } from "react-router-dom"
 import { useEffect } from "react"
 
 function App() {
+  const location = useLocation()
+
+  // 🔥 FIX: ALWAYS SCROLL TO TOP ON PAGE CHANGE
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   // 🔥 CURSOR GLOW (DESKTOP ONLY)
   useEffect(() => {
@@ -26,7 +33,7 @@ function App() {
     }
   }, [])
 
-  // 🔥 FADE-IN OBSERVER (CLEANED)
+  // 🔥 FADE-IN ANIMATION
   useEffect(() => {
     const elements = document.querySelectorAll(".fade")
 
@@ -43,17 +50,17 @@ function App() {
     elements.forEach((el) => observer.observe(el))
 
     return () => observer.disconnect()
-  }, [])
+  }, [location.pathname]) // 🔥 re-run on page change
 
   return (
     <>
-      {/* Cursor Glow */}
+      {/* 🔥 CURSOR GLOW */}
       <div className="cursor-glow"></div>
 
-      {/* Navbar */}
+      {/* 🔥 NAVBAR */}
       <Navbar />
 
-      {/* Routes */}
+      {/* 🔥 ROUTES */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/showcase" element={<Showcase />} />

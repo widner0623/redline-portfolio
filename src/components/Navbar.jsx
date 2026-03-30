@@ -24,8 +24,11 @@ function Navbar() {
   // ✅ NAVIGATION HELPERS
   const goHome = () => {
     setMenuOpen(false)
-    navigate("/")
+    if (location.pathname !== "/") {
+      navigate("/")
+    } else {
     window.scrollTo({ top: 0, behavior: "smooth" })
+    }
   }
 
   const goTo = (id) => {
