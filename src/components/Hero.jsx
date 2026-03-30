@@ -77,6 +77,12 @@ function Hero() {
           align-items: center;
           text-align: center;
         }
+        .typing {
+          margin-top: 10px;
+          color: red;
+          min-height: 30px;
+          font-size: 1.5rem;
+        }
 
         .overlay {
           background: rgba(0,0,0,0.7);

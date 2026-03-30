@@ -29,19 +29,26 @@ function Navbar() {
   }
 
   const goTo = (id) => {
-    setMenuOpen(false)
+  setMenuOpen(false)
 
-    if (location.pathname !== "/") {
-      navigate("/")
-      setTimeout(() => {
+  if (location.pathname !== "/") {
+    navigate("/")
+
+    // Wait until DOM is ready
+    setTimeout(() => {
+      const interval = setInterval(() => {
         const el = document.getElementById(id)
-        if (el) el.scrollIntoView({ behavior: "smooth" })
-      }, 150)
-    } else {
-      const el = document.getElementById(id)
-      if (el) el.scrollIntoView({ behavior: "smooth" })
-    }
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" })
+          clearInterval(interval)
+        }
+      }, 50)
+    }, 100)
+  } else {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: "smooth" })
   }
+}
 
   const goPage = (path) => {
     setMenuOpen(false)
