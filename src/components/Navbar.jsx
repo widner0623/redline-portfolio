@@ -9,7 +9,7 @@ function Navbar() {
   const [mobile, setMobile] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
 
-  // 🔥 HANDLE MOBILE DETECTION
+  // 🔥 MOBILE DETECTION
   useEffect(() => {
     const check = () => setMobile(window.innerWidth < 768)
     check()
@@ -17,11 +17,15 @@ function Navbar() {
     return () => window.removeEventListener("resize", check)
   }, [])
 
-  // 🔥 SCROLL DETECTION FOR ACTIVE LINKS
+  // 🔥 SCROLL ACTIVE (HOME ONLY)
   useEffect(() => {
-    const handleScroll = () => {
-      if (location.pathname !== "/") return
+    // 🔥 If NOT on home → reset section
+    if (location.pathname !== "/") {
+      setActiveSection("")
+      return
+    }
 
+    const handleScroll = () => {
       const sections = ["home", "projects", "contact"]
 
       for (let section of sections) {
@@ -40,7 +44,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [location.pathname])
 
-  // 🔥 NAVIGATION FUNCTIONS
+  // 🔥 NAVIGATION
   const goHome = () => {
     setMenuOpen(false)
 
@@ -77,10 +81,16 @@ function Navbar() {
     }
   }
 
-  // 🔥 ACTIVE CHECK
+  // 🔥 ACTIVE LOGIC (FIXED)
   const isActive = (path, section) => {
-    if (path && location.pathname !== path) return false
+    // If NOT on home → only use route
+    if (location.pathname !== "/") {
+      return location.pathname === path
+    }
+
+    // If on home → use section tracking
     if (section) return activeSection === section
+
     return location.pathname === path
   }
 
@@ -94,7 +104,7 @@ function Navbar() {
             Home
           </span>
 
-          <span onClick={() => goTo("projects")} className={activeSection === "projects" ? "active" : ""}>
+          <span onClick={() => goTo("projects")} className={isActive("/", "projects") ? "active" : ""}>
             Projects
           </span>
 
@@ -106,7 +116,7 @@ function Navbar() {
             Pricing
           </span>
 
-          <span onClick={() => goTo("contact")} className={activeSection === "contact" ? "active" : ""}>
+          <span onClick={() => goTo("contact")} className={isActive("/", "contact") ? "active" : ""}>
             Contact
           </span>
         </div>
@@ -164,7 +174,6 @@ function Navbar() {
           text-shadow: 0 0 10px red;
         }
 
-        /* 🔥 ACTIVE LINK */
         .active {
           color: red;
           text-shadow: 0 0 10px red;
@@ -196,7 +205,6 @@ function Navbar() {
           color: red;
         }
 
-        /* 🔥 NAVBAR GLOW LINE */
         .nav::after {
           content: "";
           position: absolute;
