@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar"
 import Home from "./pages/Home"
 import Showcase from "./pages/Showcase"
-import Pricing from "./pages/pricing"
+import Pricing from "./pages/Pricing"
 
 import { Routes, Route, useLocation } from "react-router-dom"
 import { useEffect } from "react"
