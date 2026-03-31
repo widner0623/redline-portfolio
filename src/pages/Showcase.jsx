@@ -17,21 +17,23 @@ function Showcase() {
               background: #0f0f0f;
               font-family: -apple-system, BlinkMacSystemFont, sans-serif;
               overflow: hidden;
+              padding: 20px;
             }
 
             .container {
               text-align: center;
-              width: 280px;
+              width: 100%;
+              max-width: 420px;
             }
 
             .loader {
-              width: 50px;
-              height: 50px;
-              border: 4px solid #222;
-              border-top: 4px solid #ff2c2c;
+              width: 70px;
+              height: 70px;
+              border: 5px solid #222;
+              border-top: 5px solid #ff2c2c;
               border-radius: 50%;
               animation: spin 1s linear infinite;
-              margin: 0 auto 20px;
+              margin: 0 auto 25px;
             }
 
             @keyframes spin {
@@ -40,21 +42,23 @@ function Showcase() {
 
             h1 {
               color: #ff2c2c;
-              margin-bottom: 8px;
-              font-size: 20px;
+              margin-bottom: 10px;
+              font-size: 28px;
+              letter-spacing: 0.5px;
+              text-shadow: 0 0 10px rgba(255, 44, 44, 0.4);
             }
 
             p {
               color: #aaa;
-              font-size: 13px;
-              margin-bottom: 20px;
+              font-size: 16px;
+              margin-bottom: 25px;
             }
 
             .progress-wrap {
               width: 100%;
-              height: 6px;
+              height: 10px;
               background: #222;
-              border-radius: 6px;
+              border-radius: 8px;
               overflow: hidden;
             }
 
@@ -66,10 +70,22 @@ function Showcase() {
             }
 
             .percent {
-              margin-top: 8px;
+              margin-top: 10px;
               color: #777;
-              font-size: 12px;
+              font-size: 14px;
             }
+              @media (max-width: 480px) {
+                h1 {
+                  font-size: 32px;
+                }
+                p {
+                  font-size: 17px;
+                }
+                .loader {
+                  width: 80px;
+                  height: 80px;
+                }
+              }
           </style>
         </head>
 
@@ -205,6 +221,9 @@ function Showcase() {
           transform: translateY(-4px);
           box-shadow: 0 10px 30px rgba(255, 44, 44, 0.5);
         }
+        .demo-card:hover .badge {
+          background: #ff2c2c;
+        }
 
         .demo-card img {
           width: 100%;
@@ -231,10 +250,11 @@ function Showcase() {
           positoin: absolute;
           top: 12px;
           right: 12px;
-          background: #ff2c2c;
+          background: #ffffff;
           color: white;
           padding: 6px 10px;
           font-size: 11px;
+          border: 2px solid #ff2c2c
           border-radius: 8px;
           font-weight: 600;
           z-index: 10;
