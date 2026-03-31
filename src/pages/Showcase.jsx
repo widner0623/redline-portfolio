@@ -278,7 +278,7 @@ function Showcase() {
               box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
             }
             50% {
-              box-shadow: 0 0 12px rgba(255, 44, 44, 0.8);
+              box-shadow: 0 0 12px rgba(255, 44, 44, 1.25);
             }
             100% {
               box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
