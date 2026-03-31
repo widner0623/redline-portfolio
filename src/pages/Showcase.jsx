@@ -265,6 +265,25 @@ function Showcase() {
           transform: translateY(-6px);
           transition: all 0.3s ease;
         }
+          @media (hover: none) {
+            .badge {
+              opacity: 1;
+              transform: none;
+              animation: badgeGlow 2s ease-in-out infinite;
+              background: #ff2c2c;
+            }
+          }
+          @keyframes badgeGlow {
+            0% {
+              box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
+            }
+            50% {
+              box-shadow: 0 0 12px rgba(255, 44, 44, 0.8);
+            }
+            100% {
+              box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
+            }
+          }
 
         .sub {
           margin-top: 25px;
