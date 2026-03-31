@@ -269,7 +269,7 @@ function Showcase() {
             .badge {
               opacity: 1;
               transform: none;
-              animation: badgeGlow 2s ease-in-out infinite;
+              animation: badgeGlow 3s ease-in-out infinite;
               background: #ff2c2c;
             }
           }
