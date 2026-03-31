@@ -251,10 +251,10 @@ function Showcase() {
           top: 12px;
           right: 12px;
           background: #ffffff;
-          color: white;
+          color: #111;
           padding: 6px 10px;
           font-size: 11px;
-          border: 2px solid #ff2c2c
+          border: 10px solid #ff2c2c
           border-radius: 8px;
           font-weight: 600;
           z-index: 10;
