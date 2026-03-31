@@ -222,7 +222,9 @@ function Showcase() {
           box-shadow: 0 10px 30px rgba(255, 44, 44, 0.5);
         }
         .demo-card:hover .badge {
+          opacity: 1;
           background: #ff2c2c;
+          transform: translateY(0);
         }
 
         .demo-card img {
@@ -259,6 +261,9 @@ function Showcase() {
           font-weight: 600;
           z-index: 10;
           box-shadow: 0 0 10px rgba(255, 44, 44, 0.6);
+          opacity: 0;
+          transform: translateY(-6px);
+          transition: all 0.3s ease;
         }
 
         .sub {
