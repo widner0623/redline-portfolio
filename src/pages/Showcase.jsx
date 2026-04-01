@@ -98,14 +98,8 @@ function Showcase() {
               p {
                 font-size: 1.5rem;
               }
-            }
-            .redirect-msg {
-              font-size: 0.25rem;
-            }
-            @media (max-width: 768px) {
               .redirect-msg {
-                font-size: 1.75rem;
-                font-weight: 500;
+                font-size: 0.75rem;
               }
             }
           </style>
