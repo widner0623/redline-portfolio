@@ -83,7 +83,7 @@ function Showcase() {
 
             /* 🔥 PERCENT */
             .percent {
-              margin-top: 0.75;
+              margin-top: 0.75rem;
               color: #888;
               font-size: 0.9rem;
             }
