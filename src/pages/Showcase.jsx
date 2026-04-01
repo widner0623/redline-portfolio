@@ -91,20 +91,14 @@ function Showcase() {
             /* 🔥 SMALL PHONES BOOST */
             @media (max-width: 400px) {
               h1 {
-                font-size: 3rem;
+                font-size: 5rem;
               }
 
               p {
-                font-size: 2rem;
+                font-size: 3rem;
               }
-            }
-            .redirect-msg {
-              font-size: 1rem;
-            }
-            @media (max-width: 400px) {
               .redirect-msg {
-                font-size: 1.75rem;
-                font-weight: 500;
+                font-size: 1rem;
               }
             }
           </style>
