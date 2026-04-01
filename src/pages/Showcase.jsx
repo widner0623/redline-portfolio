@@ -7,17 +7,15 @@ function Showcase() {
         <head>
           <title>Launching System...</title>
 
-          <style>
+         <style>
             html {
               font-size: 16px;
             }
-
             @media (max-width: 768px) {
               html {
                 font-size: 18px;
               }
             }
-
             body {
               margin: 0;
               height: 100vh;
@@ -36,6 +34,7 @@ function Showcase() {
               max-width: 520px;
             }
 
+            /* LOADER (SCALES WITH SCREEN) */
             .loader {
               width: 4.5rem;
               height: 4.5rem;
@@ -50,6 +49,7 @@ function Showcase() {
               to { transform: rotate(360deg); }
             }
 
+            /* 🔥 TITLE */
             h1 {
               color: #ff2c2c;
               margin-bottom: 12px;
@@ -58,12 +58,14 @@ function Showcase() {
               text-shadow: 0 0 12px rgba(255, 44, 44, 0.4);
             }
 
+            /* 🔥 STATUS TEXT */
             p {
               color: #bbb;
               font-size: 1rem;
               margin-bottom: 28px;
             }
 
+            /* 🔥 PROGRESS BAR */
             .progress-wrap {
               width: 100%;
               height: clamp(8px, 2vw, 12px);
@@ -79,16 +81,26 @@ function Showcase() {
               transition: width 0.2s ease;
             }
 
+            /* 🔥 PERCENT */
             .percent {
-              margin-top: 0.75rem; /* ✅ FIXED */
+              margin-top: 0.75;
               color: #888;
               font-size: 0.9rem;
             }
 
+            /* 🔥 SMALL PHONES BOOST */
+            @media (max-width: 768px) {
+              h1 {
+                font-size: 3rem;
+              }
+
+              p {
+                font-size: 2rem;
+              }
+            }
             .redirect-msg {
               font-size: 1rem;
             }
-
             @media (max-width: 768px) {
               .redirect-msg {
                 font-size: 1.75rem;
@@ -148,7 +160,6 @@ function Showcase() {
                 }, 600);
               }
             }, 180);
-
             // REDIRECT MESSAGE + FADE IN
             setTimeout(() => {
               const msg = document.createElement("p");
@@ -162,10 +173,12 @@ function Showcase() {
 
               document.getElementById("app").appendChild(msg);
 
+              // fade in
               setTimeout(() => {
                 msg.style.opacity = "1";
               }, 100);
 
+              // countdown
               let seconds = 5;
               const countdown = setInterval(() => {
                 seconds--;
@@ -173,11 +186,13 @@ function Showcase() {
 
                 if (seconds <= 0) {
                   clearInterval(countdown);
+
+                  // redirect
                   window.location.href = window.location.origin + "/showcase";
                 }
               }, 1000);
 
-            }, 7500);
+            }, 7500); // delay so it appears AFTER "Coming Soon"
           </script>
         </body>
       </html>
@@ -260,7 +275,6 @@ function Showcase() {
           transform: translateY(-4px);
           box-shadow: 0 10px 30px rgba(255, 44, 44, 0.5);
         }
-
         .demo-card:hover .badge {
           opacity: 1;
           background: #ff2c2c;
@@ -289,14 +303,14 @@ function Showcase() {
         }
 
         .badge {
-          position: absolute; /* ✅ FIXED */
+          positoin: absolute;
           top: 12px;
           right: 12px;
           background: #ffffff;
           color: #111;
           padding: 6px 10px;
           font-size: 11px;
-          border: 10px solid #ff2c2c; /* ✅ FIXED */
+          border: 10px solid #ff2c2c
           border-radius: 8px;
           font-weight: 600;
           z-index: 10;
@@ -305,21 +319,25 @@ function Showcase() {
           transform: translateY(-6px);
           transition: all 0.3s ease;
         }
-
-        @media (hover: none) {
-          .badge {
-            opacity: 1;
-            transform: none;
-            animation: badgeGlow 3s ease-in-out infinite;
-            background: #ff2c2c;
+          @media (hover: none) {
+            .badge {
+              opacity: 1;
+              transform: none;
+              animation: badgeGlow 3s ease-in-out infinite;
+              background: #ff2c2c;
+            }
           }
-        }
-
-        @keyframes badgeGlow {
-          0% { box-shadow: 0 0 0px rgba(255, 44, 44, 0.4); }
-          50% { box-shadow: 0 0 12px rgba(255, 44, 44, 1.25); }
-          100% { box-shadow: 0 0 0px rgba(255, 44, 44, 0.4); }
-        }
+          @keyframes badgeGlow {
+            0% {
+              box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
+            }
+            50% {
+              box-shadow: 0 0 12px rgba(255, 44, 44, 1.25);
+            }
+            100% {
+              box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
+            }
+          }
 
         .sub {
           margin-top: 25px;
