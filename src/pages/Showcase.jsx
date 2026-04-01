@@ -104,7 +104,7 @@ function Showcase() {
 
           <script>
           if (!document.getElementById("app")) {
-            window.locaton.href = window.location.origin + "/showcase";
+            window.location.href = window.location.origin + "/showcase";
           }
             let progress = 0;
 
