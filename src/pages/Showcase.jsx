@@ -6,6 +6,7 @@ function Showcase() {
       <html>
         <head>
           <title>Launching System...</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
          <style>
             html {
@@ -303,14 +304,14 @@ function Showcase() {
         }
 
         .badge {
-          positoin: absolute;
+          position: absolute;
           top: 12px;
           right: 12px;
           background: #ffffff;
           color: #111;
           padding: 6px 10px;
           font-size: 11px;
-          border: 10px solid #ff2c2c
+          border: 10px solid #ff2c2c;
           border-radius: 8px;
           font-weight: 600;
           z-index: 10;
