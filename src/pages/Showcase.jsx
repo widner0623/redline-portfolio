@@ -100,7 +100,7 @@ function Showcase() {
               }
             }
             .redirect-msg {
-              font-size: 0.75rem;
+              font-size: 0.25rem;
             }
             @media (max-width: 768px) {
               .redirect-msg {
@@ -307,11 +307,11 @@ function Showcase() {
           position: absolute;
           top: 12px;
           right: 12px;
-          background: #ffffff;
-          color: #111;
+          background: #111;
+          color: #fff;
           padding: 6px 10px;
           font-size: 11px;
-          border: 1.5px solid #ff2c2c;
+          border: 2px solid #ff2c2c;
           border-radius: 8px;
           font-weight: 600;
           z-index: 10;
@@ -330,13 +330,13 @@ function Showcase() {
           }
           @keyframes badgeGlow {
             0% {
-              box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
+              box-shadow: 0 0 5px rgba(255, 44, 44, 0.4);
             }
             50% {
-              box-shadow: 0 0 12px rgba(255, 44, 44, 1.25);
+              box-shadow: 0 0 30px rgba(255, 44, 44, 1.25);
             }
             100% {
-              box-shadow: 0 0 0px rgba(255, 44, 44, 0.4);
+              box-shadow: 0 0 5px rgba(255, 44, 44, 0.4);
             }
           }
 
