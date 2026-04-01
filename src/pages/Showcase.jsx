@@ -139,6 +139,39 @@ function Showcase() {
                 }, 600);
               }
             }, 180);
+            // REDIRECT MESSAGE + FADE IN
+            setTimeout(() => {
+              const msg = document.createElement("p");
+
+              msg.innerText = "Redirecting back in 5s...";
+              msg.style.marginTop = "17px";
+              msg.style.fontSize = "17px";
+              msg.style.color = "#777";
+              msg.style.opacity = "0";
+              msg.style.transition = "opacity 0.6s ease";
+
+              document.getElementById("app").appendChild(msg);
+
+              // fade in
+              setTimeout(() => {
+                msg.style.opacity = "1";
+              }, 100);
+
+              // countdown
+              let seconds = 5;
+              const countdown = setInterval(() => {
+                seconds--;
+                msg.innerText = "Redirecting back in " + seconds + "s...";
+
+                if (seconds <= 0) {
+                  clearInterval(countdown);
+
+                  // redirect
+                  window.location.href = window.location.origin + "/showcase";
+                }
+              }, 1000);
+
+            }, 8000); // delay so it appears AFTER "Coming Soon"
           </script>
         </body>
       </html>
