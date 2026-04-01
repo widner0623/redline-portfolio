@@ -171,7 +171,7 @@ function Showcase() {
                 }
               }, 1000);
 
-            }, 6250); // delay so it appears AFTER "Coming Soon"
+            }, 7500); // delay so it appears AFTER "Coming Soon"
           </script>
         </body>
       </html>
