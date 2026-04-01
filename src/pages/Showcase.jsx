@@ -90,6 +90,14 @@ function Showcase() {
                 font-size: 22px;
               }
             }
+            .redirect-msg {
+              font-size: 16px;
+            }
+            @media (max-width: 768px) {
+              .redirect-msg {
+                font-size: 20px;
+              }
+            }
           </style>
         </head>
 
@@ -146,10 +154,10 @@ function Showcase() {
             // REDIRECT MESSAGE + FADE IN
             setTimeout(() => {
               const msg = document.createElement("p");
+              msg.className = "redirect-msg";
 
               msg.innerText = "Redirecting back in 5s...";
               msg.style.marginTop = "17px";
-              msg.style.fontSize = "17px";
               msg.style.color = "#777";
               msg.style.opacity = "0";
               msg.style.transition = "opacity 0.6s ease";
