@@ -43,14 +43,14 @@ function Showcase() {
             h1 {
               color: #ff2c2c;
               margin-bottom: 10px;
-              font-size: 28px;
+              font-size: clamp(22px, 5vw, 32px);
               letter-spacing: 0.5px;
               text-shadow: 0 0 10px rgba(255, 44, 44, 0.4);
             }
 
             p {
               color: #aaa;
-              font-size: 16px;
+              font-size: clamp(14px, 3.5vw, 18px);
               margin-bottom: 25px;
             }
 
@@ -72,7 +72,7 @@ function Showcase() {
             .percent {
               margin-top: 10px;
               color: #777;
-              font-size: 14px;
+              font-size: clamp(12px, 3vw, 16px);
             }
               @media (max-width: 480px) {
                 h1 {
