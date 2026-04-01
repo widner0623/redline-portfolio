@@ -8,89 +8,89 @@ function Showcase() {
           <title>Launching System...</title>
 
          <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #0f0f0f;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow: hidden;
-    padding: 20px;
-  }
+            body {
+              margin: 0;
+              height: 100vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: #0f0f0f;
+              font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+              overflow: hidden;
+              padding: 20px;
+            }
 
-  .container {
-    text-align: center;
-    width: 100%;
-    max-width: 520px;
-  }
+            .container {
+              text-align: center;
+              width: 100%;
+              max-width: 520px;
+            }
 
-  /* 🔥 LOADER (SCALES WITH SCREEN) */
-  .loader {
-    width: clamp(70px, 18vw, 110px);
-    height: clamp(70px, 18vw, 110px);
-    border: clamp(4px, 1vw, 6px) solid #222;
-    border-top: clamp(4px, 1vw, 6px) solid #ff2c2c;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 30px;
-  }
+            /* 🔥 LOADER (SCALES WITH SCREEN) */
+            .loader {
+              width: clamp(80px, 20vw, 120px);
+              height: clamp(80px, 20vw, 120px);
+              border: clamp(4px, 1vw, 6px) solid #222;
+              border-top: clamp(4px, 1vw, 6px) solid #ff2c2c;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+              margin: 0 auto 30px;
+            }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+            @keyframes spin {
+              to { transform: rotate(360deg); }
+            }
 
-  /* 🔥 TITLE */
-  h1 {
-    color: #ff2c2c;
-    margin-bottom: 12px;
-    font-size: clamp(30px, 7vw, 42px);
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 12px rgba(255, 44, 44, 0.4);
-  }
+            /* 🔥 TITLE */
+            h1 {
+              color: #ff2c2c;
+              margin-bottom: 12px;
+              font-size: clamp(40px, 10vw, 52px);
+              letter-spacing: 0.5px;
+              text-shadow: 0 0 12px rgba(255, 44, 44, 0.4);
+            }
 
-  /* 🔥 STATUS TEXT */
-  p {
-    color: #bbb;
-    font-size: clamp(16px, 4.5vw, 20px);
-    margin-bottom: 28px;
-  }
+            /* 🔥 STATUS TEXT */
+            p {
+              color: #bbb;
+              font-size: clamp(22px, 6.5vw, 26px);
+              margin-bottom: 28px;
+            }
 
-  /* 🔥 PROGRESS BAR */
-  .progress-wrap {
-    width: 100%;
-    height: clamp(8px, 2vw, 12px);
-    background: #222;
-    border-radius: 10px;
-    overflow: hidden;
-  }
+            /* 🔥 PROGRESS BAR */
+            .progress-wrap {
+              width: 100%;
+              height: clamp(18px, 12vw, 22px);
+              background: #222;
+              border-radius: 10px;
+              overflow: hidden;
+            }
 
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #ff2c2c, #ff6b6b);
-    transition: width 0.2s ease;
-  }
+            .progress-bar {
+              height: 100%;
+              width: 0%;
+              background: linear-gradient(90deg, #ff2c2c, #ff6b6b);
+              transition: width 0.2s ease;
+            }
 
-  /* 🔥 PERCENT */
-  .percent {
-    margin-top: 12px;
-    color: #888;
-    font-size: clamp(14px, 4vw, 18px);
-  }
+            /* 🔥 PERCENT */
+            .percent {
+              margin-top: 12px;
+              color: #888;
+              font-size: clamp(18px, 10vw, 24px);
+            }
 
-  /* 🔥 SMALL PHONES BOOST */
-  @media (max-width: 400px) {
-    h1 {
-      font-size: 34px;
-    }
+            /* 🔥 SMALL PHONES BOOST */
+            @media (max-width: 400px) {
+              h1 {
+                font-size: 38px;
+              }
 
-    p {
-      font-size: 17px;
-    }
-  }
-</style>
+              p {
+                font-size: 22px;
+              }
+            }
+          </style>
         </head>
 
         <body>
