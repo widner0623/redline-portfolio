@@ -92,11 +92,11 @@ function Showcase() {
             /* 🔥 SMALL PHONES BOOST */
             @media (max-width: 768px) {
               h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
               }
 
               p {
-                font-size: 1.5rem;
+                font-size: 1.1rem;
               }
               .redirect-msg {
                 font-size: 0.75rem;
