@@ -91,11 +91,12 @@ function Showcase() {
               }
             }
             .redirect-msg {
-              font-size: 16px;
+              font-size: 22px;
             }
             @media (max-width: 768px) {
               .redirect-msg {
-                font-size: 20px;
+                font-size: 22px;
+                font-weight: 500;
               }
             }
           </style>
