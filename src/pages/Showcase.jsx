@@ -89,13 +89,13 @@ function Showcase() {
             }
 
             /* 🔥 SMALL PHONES BOOST */
-            @media (max-width: 400px) {
+            @media (max-width: 768px) {
               h1 {
-                font-size: 2.3rem;
+                font-size: 3rem;
               }
 
               p {
-                font-size: 1.3rem;
+                font-size: 2rem;
               }
             }
             .redirect-msg {
@@ -103,7 +103,7 @@ function Showcase() {
             }
             @media (max-width: 768px) {
               .redirect-msg {
-                font-size: 1.3rem;
+                font-size: 1.75rem;
                 font-weight: 500;
               }
             }
