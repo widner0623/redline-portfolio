@@ -74,18 +74,7 @@ function Showcase() {
               color: #777;
               font-size: clamp(12px, 3vw, 16px);
             }
-              @media (max-width: 480px) {
-                h1 {
-                  font-size: 32px;
-                }
-                p {
-                  font-size: 17px;
-                }
-                .loader {
-                  width: 80px;
-                  height: 80px;
-                }
-              }
+             
           </style>
         </head>
 
