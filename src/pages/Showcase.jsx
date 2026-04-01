@@ -92,15 +92,15 @@ function Showcase() {
             /* 🔥 SMALL PHONES BOOST */
             @media (max-width: 768px) {
               h1 {
-                font-size: 3rem;
+                font-size: 2.5rem;
               }
 
               p {
-                font-size: 2rem;
+                font-size: 1.5rem;
               }
             }
             .redirect-msg {
-              font-size: 1rem;
+              font-size: 0.75rem;
             }
             @media (max-width: 768px) {
               .redirect-msg {
@@ -311,7 +311,7 @@ function Showcase() {
           color: #111;
           padding: 6px 10px;
           font-size: 11px;
-          border: 10px solid #ff2c2c;
+          border: 1.5px solid #ff2c2c;
           border-radius: 8px;
           font-weight: 600;
           z-index: 10;
