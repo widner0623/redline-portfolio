@@ -7,75 +7,90 @@ function Showcase() {
         <head>
           <title>Launching System...</title>
 
-          <style>
-            body {
-              margin: 0;
-              height: 100vh;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background: #0f0f0f;
-              font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-              overflow: hidden;
-              padding: 20px;
-            }
+         <style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0f0f0f;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    padding: 20px;
+  }
 
-            .container {
-              text-align: center;
-              width: 100%;
-              max-width: 420px;
-            }
+  .container {
+    text-align: center;
+    width: 100%;
+    max-width: 520px;
+  }
 
-            .loader {
-              width: 70px;
-              height: 70px;
-              border: 5px solid #222;
-              border-top: 5px solid #ff2c2c;
-              border-radius: 50%;
-              animation: spin 1s linear infinite;
-              margin: 0 auto 25px;
-            }
+  /* 🔥 LOADER (SCALES WITH SCREEN) */
+  .loader {
+    width: clamp(70px, 18vw, 110px);
+    height: clamp(70px, 18vw, 110px);
+    border: clamp(4px, 1vw, 6px) solid #222;
+    border-top: clamp(4px, 1vw, 6px) solid #ff2c2c;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 30px;
+  }
 
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 
-            h1 {
-              color: #ff2c2c;
-              margin-bottom: 10px;
-              font-size: clamp(22px, 5vw, 32px);
-              letter-spacing: 0.5px;
-              text-shadow: 0 0 10px rgba(255, 44, 44, 0.4);
-            }
+  /* 🔥 TITLE */
+  h1 {
+    color: #ff2c2c;
+    margin-bottom: 12px;
+    font-size: clamp(30px, 7vw, 42px);
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px rgba(255, 44, 44, 0.4);
+  }
 
-            p {
-              color: #aaa;
-              font-size: clamp(14px, 3.5vw, 18px);
-              margin-bottom: 25px;
-            }
+  /* 🔥 STATUS TEXT */
+  p {
+    color: #bbb;
+    font-size: clamp(16px, 4.5vw, 20px);
+    margin-bottom: 28px;
+  }
 
-            .progress-wrap {
-              width: 100%;
-              height: 10px;
-              background: #222;
-              border-radius: 8px;
-              overflow: hidden;
-            }
+  /* 🔥 PROGRESS BAR */
+  .progress-wrap {
+    width: 100%;
+    height: clamp(8px, 2vw, 12px);
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
-            .progress-bar {
-              height: 100%;
-              width: 0%;
-              background: linear-gradient(90deg, #ff2c2c, #ff6b6b);
-              transition: width 0.2s ease;
-            }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff2c2c, #ff6b6b);
+    transition: width 0.2s ease;
+  }
 
-            .percent {
-              margin-top: 10px;
-              color: #777;
-              font-size: clamp(12px, 3vw, 16px);
-            }
-             
-          </style>
+  /* 🔥 PERCENT */
+  .percent {
+    margin-top: 12px;
+    color: #888;
+    font-size: clamp(14px, 4vw, 18px);
+  }
+
+  /* 🔥 SMALL PHONES BOOST */
+  @media (max-width: 400px) {
+    h1 {
+      font-size: 34px;
+    }
+
+    p {
+      font-size: 17px;
+    }
+  }
+</style>
         </head>
 
         <body>
