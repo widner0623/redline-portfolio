@@ -8,6 +8,14 @@ function Showcase() {
           <title>Launching System...</title>
 
          <style>
+            html {
+              font-size: 16px;
+            }
+            @media (max-width: 768px) {
+              html {
+                font-size: 18px;
+              }
+            }
             body {
               margin: 0;
               height: 100vh;
@@ -26,10 +34,10 @@ function Showcase() {
               max-width: 520px;
             }
 
-            /* 🔥 LOADER (SCALES WITH SCREEN) */
+            /* LOADER (SCALES WITH SCREEN) */
             .loader {
-              width: clamp(80px, 20vw, 120px);
-              height: clamp(80px, 20vw, 120px);
+              width: 4.5rem;
+              height: 4.5rem;
               border: clamp(4px, 1vw, 6px) solid #222;
               border-top: clamp(4px, 1vw, 6px) solid #ff2c2c;
               border-radius: 50%;
@@ -45,7 +53,7 @@ function Showcase() {
             h1 {
               color: #ff2c2c;
               margin-bottom: 12px;
-              font-size: clamp(32px, 5vw, 38px);
+              font-size: 2rem;
               letter-spacing: 0.5px;
               text-shadow: 0 0 12px rgba(255, 44, 44, 0.4);
             }
@@ -53,7 +61,7 @@ function Showcase() {
             /* 🔥 STATUS TEXT */
             p {
               color: #bbb;
-              font-size: clamp(16px, 3.5vw, 18px);
+              font-size: 1rem;
               margin-bottom: 28px;
             }
 
@@ -75,27 +83,27 @@ function Showcase() {
 
             /* 🔥 PERCENT */
             .percent {
-              margin-top: 12px;
+              margin-top: 0.75;
               color: #888;
-              font-size: clamp(14px, 3vw, 16px);
+              font-size: 0.9rem;
             }
 
             /* 🔥 SMALL PHONES BOOST */
             @media (max-width: 400px) {
               h1 {
-                font-size: 38px;
+                font-size: 2.3rem;
               }
 
               p {
-                font-size: 22px;
+                font-size: 1.3rem;
               }
             }
             .redirect-msg {
-              font-size: 22px;
+              font-size: 1rem;
             }
             @media (max-width: 768px) {
               .redirect-msg {
-                font-size: 22px;
+                font-size: 1.3rem;
                 font-weight: 500;
               }
             }
