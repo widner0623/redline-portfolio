@@ -45,7 +45,7 @@ function Showcase() {
             h1 {
               color: #ff2c2c;
               margin-bottom: 12px;
-              font-size: clamp(40px, 10vw, 52px);
+              font-size: clamp(32px, 5vw, 38px);
               letter-spacing: 0.5px;
               text-shadow: 0 0 12px rgba(255, 44, 44, 0.4);
             }
@@ -53,14 +53,14 @@ function Showcase() {
             /* 🔥 STATUS TEXT */
             p {
               color: #bbb;
-              font-size: clamp(22px, 6.5vw, 26px);
+              font-size: clamp(16px, 3.5vw, 18px);
               margin-bottom: 28px;
             }
 
             /* 🔥 PROGRESS BAR */
             .progress-wrap {
               width: 100%;
-              height: clamp(18px, 12vw, 22px);
+              height: clamp(8px, 2vw, 12px);
               background: #222;
               border-radius: 10px;
               overflow: hidden;
@@ -77,7 +77,7 @@ function Showcase() {
             .percent {
               margin-top: 12px;
               color: #888;
-              font-size: clamp(18px, 10vw, 24px);
+              font-size: clamp(14px, 3vw, 16px);
             }
 
             /* 🔥 SMALL PHONES BOOST */
