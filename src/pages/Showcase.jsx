@@ -89,7 +89,7 @@ function Showcase() {
             }
 
             /* 🔥 SMALL PHONES BOOST */
-            @media (max-width: 768px) {
+            @media (max-width: 400px) {
               h1 {
                 font-size: 3rem;
               }
