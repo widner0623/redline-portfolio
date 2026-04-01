@@ -101,7 +101,7 @@ function Showcase() {
             .redirect-msg {
               font-size: 1rem;
             }
-            @media (max-width: 768px) {
+            @media (max-width: 400px) {
               .redirect-msg {
                 font-size: 1.75rem;
                 font-weight: 500;
