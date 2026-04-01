@@ -103,9 +103,6 @@ function Showcase() {
           </div>
 
           <script>
-          if (!document.getElementById("app")) {
-            window.location.href = window.location.origin + "/showcase";
-          }
             let progress = 0;
 
             const statuses = [
